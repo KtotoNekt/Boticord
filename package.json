@@ -12,7 +12,6 @@
     "discord.js": "^13.6.0"
   },
   "devDependencies": {
-    "@electron/remote": "^2.0.8",
     "electron": "^18.2.0",
     "electron-builder": "^23.0.3"
   }
