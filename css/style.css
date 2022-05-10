@@ -15,7 +15,7 @@
     width: 60%;
     position: absolute;
     bottom: 3px;
-    right: 0;
+    left: 330px;
 }
 
 .guild {
@@ -28,13 +28,24 @@
     border-radius: 25px;
 }
 
+.category {
+    font-family: 'Franklin Gothic Medium';
+    font-size: 20px;
+}
+
+p.channel {
+    left: 18px;
+    position: relative;
+}
+
 #channels {
     top: 0;
     left: 70px;
-    width: 30%;
+    width: 250px;
     background-color: rgb(41, 41, 41);
     height: 99.9%;
     position: absolute;
+    overflow-x: hidden;
     overflow-y: scroll;
     color: rgb(177, 177, 177);
 }
@@ -44,4 +55,13 @@
     width: 5px;
 } ::-webkit-scrollbar-thumb {
     background-color: rgb(82, 82, 82);
+}
+
+#chat {
+    top: 0;
+    left: 330px;
+    width: 60%;
+    height: 98%;
+    position: absolute;
+    overflow-y: scroll;
 }

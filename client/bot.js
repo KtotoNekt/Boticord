@@ -1,3 +1,4 @@
+const { channel } = require('diagnostics_channel')
 const Discord = require('discord.js')
 const { readFileSync } = require('fs')
 const  { join } = require('path')

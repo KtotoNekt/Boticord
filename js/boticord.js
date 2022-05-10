@@ -2,6 +2,7 @@ const { ipcRenderer } = require('electron')
 const { join } = require('path')
 const guildCanvas = document.querySelector("#guilds")
 const channelsCanvas = document.querySelector('#channels')
+const messagesCanvas = document.querySelector('#chat')
 
 function removeElementsCanvas(id) {
     const elements = document.querySelectorAll(id)
@@ -26,13 +27,61 @@ function addGuildCanvas(guild, icon, channels) {
     guildCanvas.appendChild(div)
 }
 
+function addCategoryCanvas(channel) {
+    const div = document.createElement('div')
+    const p = document.createElement('p')
+
+    p.textContent = channel.name
+    p.classList.add('category')
+    div.id = channel.id
+    div.classList.add('channel')
+
+    div.appendChild(p)
+    channelsCanvas.appendChild(div)
+}
+
 function addChannelCanvas(channel) {
-    console.log(channel.type)
+    if(channel.type === "GUILD_CATEGORY") {
+        addCategoryCanvas(channel)
+        return
+    }
+
+    const category = document.getElementById(channel.parentId)
     const p = document.createElement('p')
     p.classList.add('channel')
     p.textContent = channel.name
+    p.id = channel.id
 
-    channelsCanvas.appendChild(p)
+    p.onclick = (e) => {
+        removeElementsCanvas('.message')
+        ipcRenderer.send("messages", e.target.id)
+    }
+
+    if(category)
+        category.appendChild(p)
+    else
+        channelsCanvas.appendChild(p)
+}
+
+function addMessagesCanvas(message, url) {
+    const div = document.createElement('div')
+    const content = document.createElement('span')
+    const nick = document.createElement('span')
+    const avatar = document.createElement('img')
+
+    avatar.width = 40
+    avatar.height = 40
+    avatar.src = url ? url : join('..', "img", "default.png")
+    div.id = message.author.id
+    div.classList.add('message')
+    nick.textContent = message.author.username + "| "
+    content.textContent = message.content
+
+    div.appendChild(avatar)
+    div.appendChild(nick)
+    div.appendChild(content)
+    messagesCanvas.appendChild(div)
 }
 
 ipcRenderer.on('guild', (event, guild, guildIcon, channels) => addGuildCanvas(guild, guildIcon, channels))
+ipcRenderer.on('message', (event, message, url) => addMessagesCanvas(message, url))
