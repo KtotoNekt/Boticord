@@ -65,3 +65,19 @@ p.channel {
     position: absolute;
     overflow-y: scroll;
 }
+
+.avatar {
+    border-radius: 25px;
+}
+
+.nick {
+    left: 5px;
+    bottom: 23px;
+    position: relative
+}
+
+.content {
+    bottom: 20px;
+    left: 45px;
+    position: relative;
+}

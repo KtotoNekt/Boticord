@@ -65,6 +65,7 @@ function addChannelCanvas(channel) {
 
 function addMessagesCanvas(message, url) {
     const div = document.createElement('div')
+    const div2 = document.createElement('div')
     const content = document.createElement('span')
     const nick = document.createElement('span')
     const avatar = document.createElement('img')
@@ -72,13 +73,18 @@ function addMessagesCanvas(message, url) {
     avatar.width = 40
     avatar.height = 40
     avatar.src = url ? url : join('..', "img", "default.png")
+    avatar.classList.add('avatar')
     div.id = message.author.id
     div.classList.add('message')
-    nick.textContent = message.author.username + "| "
+    div2.classList.add('author')
+    nick.textContent = message.author.username
+    nick.classList.add('nick')
     content.textContent = message.content
+    content.classList.add('content')
 
-    div.appendChild(avatar)
-    div.appendChild(nick)
+    div2.appendChild(avatar)
+    div2.appendChild(nick)
+    div.appendChild(div2)
     div.appendChild(content)
     messagesCanvas.appendChild(div)
 }
