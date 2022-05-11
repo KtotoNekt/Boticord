@@ -37,6 +37,8 @@ module.exports = async (bot, win) => {
                 event.sender.send("message", message, avatar)
             })
         })
-        } catch {console.log(channel)}
+        } catch(e) {
+            console.log(e)
+        }
     })
 }

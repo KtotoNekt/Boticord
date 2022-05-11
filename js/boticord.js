@@ -1,8 +1,15 @@
 const { ipcRenderer } = require('electron')
 const { join } = require('path')
+const { send } = require('process')
 const guildCanvas = document.querySelector("#guilds")
 const channelsCanvas = document.querySelector('#channels')
 const messagesCanvas = document.querySelector('#chat')
+const sendMessage = document.querySelector('#send')
+const inputUser = document.querySelector("#input")
+
+sendMessage.onclick = (e) => {
+    ipcRenderer.send("sendmessage", inputUser.value)
+}
 
 function removeElementsCanvas(id) {
     const elements = document.querySelectorAll(id)

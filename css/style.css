@@ -12,10 +12,8 @@
     color: rgb(206, 206, 206);
     background-color: #5b5b5b;
     height: 20px;
-    width: 60%;
-    position: absolute;
-    bottom: 3px;
-    left: 323px;
+    width: 80%;
+
 }
 
 .guild {
@@ -64,7 +62,7 @@ p.channel {
     height: 98%;
     position: absolute;
     overflow-y: scroll;
-    overflow: -moz-hidden-unscrollable;
+    overflow-x: hidden;
 }
 
 .avatar {
@@ -85,4 +83,11 @@ p.channel {
     bottom: 20px;
     left: 45px;
     position: relative;
+}
+
+#user-input {
+    width: 60%;
+    position: absolute;
+    bottom: 3px;
+    left: 323px;
 }
