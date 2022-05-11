@@ -54,6 +54,7 @@ function addChannelCanvas(channel) {
 
     p.onclick = (e) => {
         removeElementsCanvas('.message')
+        ipcRenderer.send('openchannel', e.target.id)
         ipcRenderer.send("messages", e.target.id)
     }
 
@@ -87,6 +88,8 @@ function addMessagesCanvas(message, url) {
     div.appendChild(div2)
     div.appendChild(content)
     messagesCanvas.appendChild(div)
+
+    messagesCanvas.scrollTop = messagesCanvas.scrollHeight
 }
 
 ipcRenderer.on('guild', (event, guild, guildIcon, channels) => addGuildCanvas(guild, guildIcon, channels))

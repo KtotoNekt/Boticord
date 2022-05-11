@@ -31,6 +31,7 @@ module.exports = async (bot, win) => {
         const channel = bot.channels.cache.get(id)
         try {
             channel.messages.fetch({limit: 100}).then(messages => {
+            messages.reverse()
             messages.forEach(message => {
                 const avatar = message.author.avatarURL()
                 event.sender.send("message", message, avatar)

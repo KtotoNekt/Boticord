@@ -6,6 +6,9 @@ let win
 async function createWindow() {
     const token = require('./client/config.json').token
     win = new BrowserWindow({
+        width: 830,
+        minWidth: 830,
+        minHeight: 500,
         backgroundColor: "#444444",
         webPreferences: {
             nodeIntegration: true,
