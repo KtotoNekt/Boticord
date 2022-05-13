@@ -1,9 +1,6 @@
 body {
     overflow-x: hidden;
-}
-
-#author {
-    visibility: visible;
+    background-color: #40444b;
 }
 
 #main {

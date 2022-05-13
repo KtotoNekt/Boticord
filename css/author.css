@@ -1,0 +1,46 @@
+#author {
+    visibility: visible;
+    position: fixed;
+    text-align: center;
+    margin: 0 0 0 -8px;
+    width: 100%;
+    height: 100%;
+}
+
+#title {
+    font-size: 100px;
+    color: white;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 0;
+    margin-top: 20%
+}
+
+#token {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    height: 25px;
+    font-size: 20px;
+    border: 2px solid white
+}
+
+#login {
+    width: 200px;
+    height: 50px;
+    background-color: grey;
+    margin-top: 10px
+}
+
+#login:hover {
+    background-color: darkgrey;
+}
+
+#error {
+    display: block;
+    margin-bottom: 10px;
+    color: dimgrey;
+    font-size: 25px;
+}
