@@ -1,10 +1,8 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
-const { join } = require('path')
+const { app, BrowserWindow } = require('electron')
 
 let win
 
 async function createWindow() {
-    const token = require('./client/config.json').token
     win = new BrowserWindow({
         width: 830,
         minWidth: 830,
@@ -13,13 +11,11 @@ async function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
+            enableRemoteModule: true
         }
     })
     
-    if(token) {
-        require('./client/bot.js')(win)
-    }
-    else win.loadFile(join('html', "author.html"))
+    win.loadFile("index.html")
 }
 
 app.whenReady().then(() => {
@@ -30,9 +26,4 @@ app.on('window-all-closed', () => {
     if(process.platform !== "darwin") {
         app.quit()
     }
-})
-
-ipcMain.once("main", () => {
-    win.loadFile(join("html", "index.html"))
-    require('./client/bot.js')(win)
 })

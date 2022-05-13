@@ -1,0 +1,19 @@
+#guilds {
+    align-items: center;
+    position: absolute;
+    background-color: rgb(31, 31, 31);
+    width: 70px;
+    height: 99.9%;
+    left: 0;
+    top: 0;
+}
+
+.guild {
+    top: 5px;
+    left: 8px;
+    position: relative
+}
+
+.guild > img {
+    border-radius: 25px;
+}

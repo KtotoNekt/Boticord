@@ -1,14 +1,33 @@
-const { ipcRenderer } = require('electron')
+const { writeFileSync, readFileSync } = require('fs')
 const { join } = require('path')
+const Discord = require('discord.js')
 const { send } = require('process')
-const guildCanvas = document.querySelector("#guilds")
-const channelsCanvas = document.querySelector('#channels')
-const messagesCanvas = document.querySelector('#chat')
-const sendMessage = document.querySelector('#send')
-const inputUser = document.querySelector("#input")
 
-sendMessage.onclick = (e) => {
-    ipcRenderer.send("sendmessage", inputUser.value)
+let guildCanvas
+let channelsCanvas
+let messagesCanvas
+let inputUser
+
+let openChannel
+
+function windowOpen() {
+    guildCanvas = document.querySelector("#guilds")
+    channelsCanvas = document.querySelector('#channels')
+    messagesCanvas = document.querySelector('#chat')
+    inputUser = document.querySelector("#input")
+
+    global.bot.guilds.cache.forEach(guild => addGuildCanvas(guild))
+    document.getElementById("author").style.visibility = "hidden"
+    document.getElementById("main").style.visibility = "visible"
+
+    inputUser.addEventListener("keydown", (e) => {
+        if(e.code === "Enter") sendMessage(openChannel)
+    })
+}
+
+function parseMessage(message) {
+    if(openChannel === message.channel.id) 
+        addMessagesCanvas(message)
 }
 
 function removeElementsCanvas(id) {
@@ -16,17 +35,35 @@ function removeElementsCanvas(id) {
     elements.forEach(element => element.remove())
 }
 
-function addGuildCanvas(guild, icon, channels) {
+function addGuildCanvas(guild) {
     const div = document.createElement("div")
     const img = document.createElement("img")
     
-    img.src = icon ? icon : join("..", 'img', 'default.png')
+    img.src = guild.iconURL() ? guild.iconURL() : join('img', 'default.png')
     img.width = 50
     img.height = 50
     div.classList.add("guild")
 
     div.onclick = () => {
         removeElementsCanvas('.channel')
+        const notHaveCategory = []
+        const trash = []
+        const categorys = []
+        let i = 0
+        
+        guild.channels.cache.forEach(channel => {
+            if(channel.parentId === null && channel.type !== "GUILD_CATEGORY") {
+                notHaveCategory[i] = channel
+            }
+            else if(channel.type === "GUILD_CATEGORY") {
+                categorys[i] = channel
+            } else {
+                trash[i] = channel
+            }
+            i += 1
+        })
+
+        const channels = notHaveCategory.concat(categorys.concat(trash))
         channels.forEach(channel => addChannelCanvas(channel))
     }
 
@@ -60,9 +97,16 @@ function addChannelCanvas(channel) {
     p.id = channel.id
 
     p.onclick = (e) => {
+        openChannel = e.target.id
+
         removeElementsCanvas('.message')
-        ipcRenderer.send('openchannel', e.target.id)
-        ipcRenderer.send("messages", e.target.id)
+        const ch = global.bot.channels.cache.get(e.target.id)
+        ch.messages.fetch({limit: 100}).then(messages => {
+            messages.reverse()
+            messages.forEach(message => {
+                addMessagesCanvas(message)
+            })
+        })
     }
 
     if(category)
@@ -71,7 +115,7 @@ function addChannelCanvas(channel) {
         channelsCanvas.appendChild(p)
 }
 
-function addMessagesCanvas(message, url) {
+function addMessagesCanvas(message) {
     const div = document.createElement('div')
     const div2 = document.createElement('div')
     const content = document.createElement('span')
@@ -80,7 +124,9 @@ function addMessagesCanvas(message, url) {
 
     avatar.width = 40
     avatar.height = 40
-    avatar.src = url ? url : join('..', "img", "default.png")
+    avatar.src = message.author.avatarURL() ? 
+                 message.author.avatarURL() : 
+                 join('..', "img", "default.png")
     avatar.classList.add('avatar')
     div.id = message.author.id
     div.classList.add('message')
@@ -99,5 +145,7 @@ function addMessagesCanvas(message, url) {
     messagesCanvas.scrollTop = messagesCanvas.scrollHeight
 }
 
-ipcRenderer.on('guild', (event, guild, guildIcon, channels) => addGuildCanvas(guild, guildIcon, channels))
-ipcRenderer.on('message', (event, message, url) => addMessagesCanvas(message, url))
+function sendMessage(id) {
+    const message = inputUser.value
+    global.bot.channels.cache.get(id).send(message)
+}

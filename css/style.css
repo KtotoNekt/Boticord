@@ -1,93 +1,18 @@
-#guilds {
-    align-items: center;
-    position: absolute;
-    background-color: rgb(31, 31, 31);
-    width: 70px;
-    height: 99.9%;
-    left: 0;
-    top: 0;
-}
-
-#input {
-    color: rgb(206, 206, 206);
-    background-color: #5b5b5b;
-    height: 20px;
-    width: 80%;
-
-}
-
-.guild {
-    top: 5px;
-    left: 8px;
-    position: relative
-}
-
-.guild > img {
-    border-radius: 25px;
-}
-
-.category {
-    font-family: 'Franklin Gothic Medium';
-    font-size: 20px;
-}
-
-p.channel {
-    left: 18px;
-    position: relative;
-}
-
-#channels {
-    top: 0;
-    left: 70px;
-    width: 250px;
-    background-color: rgb(41, 41, 41);
-    height: 99.9%;
-    position: absolute;
+body {
     overflow-x: hidden;
-    overflow-y: scroll;
-    color: rgb(177, 177, 177);
 }
+
+#author {
+    visibility: visible;
+}
+
+#main {
+    visibility: hidden;
+} 
 
 ::-webkit-scrollbar {
     background-color: rgb(41, 41, 41);
     width: 5px;
 } ::-webkit-scrollbar-thumb {
     background-color: rgb(82, 82, 82);
-}
-
-#chat {
-    top: 0;
-    left: 330px;
-    width: 60%;
-    height: 98%;
-    position: absolute;
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
-
-.avatar {
-    border-radius: 25px;
-}
-
-.nick {
-    display: inline-block;
-    left: 5px;
-    bottom: 23px;
-    position: relative;
-    font-size: 17px;
-    font-weight: bold;
-}
-
-.content {
-    display: inline-block;
-    bottom: 20px;
-    left: 45px;
-    position: relative;
-}
-
-#user-input {
-    width: 60%;
-    position: absolute;
-    bottom: 3px;
-    left: 323px;
 }

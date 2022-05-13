@@ -1,0 +1,43 @@
+#chat {
+    top: 0;
+    left: 330px;
+    width: 60%;
+    height: 98%;
+    position: absolute;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.avatar {
+    border-radius: 25px;
+}
+
+.nick {
+    display: inline-block;
+    left: 5px;
+    bottom: 23px;
+    position: relative;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.content {
+    display: inline-block;
+    bottom: 20px;
+    left: 45px;
+    position: relative;
+}
+
+#user-input {
+    width: 60%;
+    position: absolute;
+    bottom: 3px;
+    left: 323px;
+}
+
+#input {
+    color: rgb(206, 206, 206);
+    background-color: #5b5b5b;
+    height: 20px;
+    width: 100%;
+}

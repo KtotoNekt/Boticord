@@ -1,0 +1,21 @@
+.category {
+    font-family: 'Franklin Gothic Medium';
+    font-size: 20px;
+}
+
+p.channel {
+    left: 18px;
+    position: relative;
+}
+
+#channels {
+    top: 0;
+    left: 70px;
+    width: 250px;
+    background-color: rgb(41, 41, 41);
+    height: 99.9%;
+    position: absolute;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    color: rgb(177, 177, 177);
+}
