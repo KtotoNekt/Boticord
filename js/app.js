@@ -6,6 +6,7 @@ const { send } = require('process')
 let guildCanvas
 let channelsCanvas
 let messagesCanvas
+let membersChannelCanvas
 let inputUser
 
 let openChannel
@@ -14,6 +15,7 @@ function windowOpen() {
     guildCanvas = document.querySelector("#guilds")
     channelsCanvas = document.querySelector('#channels')
     messagesCanvas = document.querySelector('#chat')
+    membersChannelCanvas = document.querySelector('#channel-members')
     inputUser = document.querySelector("#input")
 
     global.bot.guilds.cache.forEach(guild => addGuildCanvas(guild))
@@ -21,7 +23,10 @@ function windowOpen() {
     document.getElementById("main").style.visibility = "visible"
 
     inputUser.addEventListener("keydown", (e) => {
-        if(e.code === "Enter") sendMessage(openChannel)
+        if(e.code === "Enter") {
+            sendMessage(openChannel)
+            inputUser.value = ""
+        }
     })
 }
 
@@ -100,6 +105,8 @@ function addChannelCanvas(channel) {
         openChannel = e.target.id
 
         removeElementsCanvas('.message')
+        removeElementsCanvas('.member')
+
         const ch = global.bot.channels.cache.get(e.target.id)
         ch.messages.fetch({limit: 100}).then(messages => {
             messages.reverse()
@@ -107,6 +114,8 @@ function addChannelCanvas(channel) {
                 addMessagesCanvas(message)
             })
         })
+
+        ch.members.forEach(member => addMemberCanvas(member))
     }
 
     if(category)
@@ -143,6 +152,26 @@ function addMessagesCanvas(message) {
     messagesCanvas.appendChild(div)
 
     messagesCanvas.scrollTop = messagesCanvas.scrollHeight
+}
+
+function addMemberCanvas(member) {
+    const div = document.createElement('div')
+    const nick = document.createElement('span')
+    const avatar = document.createElement('img')
+    const status = document.createElement('div')
+
+    nick.textContent = member.displayName
+    avatar.src = member.user.avatarURL()
+    avatar.classList.add('avatar')
+    div.id = member.id
+    div.classList.add('member')
+    status.classList.add('status')
+    status.classList.add(member.presence.status)
+
+    div.appendChild(avatar)
+    div.appendChild(status)
+    div.appendChild(nick)
+    membersChannelCanvas.appendChild(div)
 }
 
 function sendMessage(id) {

@@ -1,11 +1,14 @@
 const { app, BrowserWindow } = require('electron')
 
+const width = 1080
+
 let win
 
 async function createWindow() {
     win = new BrowserWindow({
-        width: 830,
-        minWidth: 830,
+        width: width,
+        minWidth: width,
+        maxWidth: width,
         minHeight: 500,
         backgroundColor: "#444444",
         webPreferences: {

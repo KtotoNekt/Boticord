@@ -1,0 +1,46 @@
+#channel-members {
+    position: absolute;
+    background-color: rgb(41, 41, 41);
+    height: 99.9%;
+    width: 250px;
+    right: 0;
+    top: 0
+}
+
+.member {
+    position: relative;
+    height: 50px;
+}
+
+.member span {
+    position: relative;
+    bottom: 46px;
+    left: 48px;
+    color: #bfbfbf;
+}
+
+.avatar {
+    width: 40px
+}
+
+.status {
+    position: relative;
+    width: 11px;
+    height: 11px;
+    border-radius: 25px;
+    bottom: 17px;
+    left: 27px
+}
+
+.online {
+    background-color: rgb(0, 197, 0);
+}
+.ofline {
+    background-color: rgb(117, 117, 117);
+}
+.idle {
+    background-color: rgb(221, 221, 48);
+}
+.dnd {
+    background-color: rgb(172, 0, 0);
+}

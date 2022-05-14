@@ -1,11 +1,18 @@
 #chat {
     top: 0;
-    left: 330px;
-    width: 60%;
+    left: 340px;
+    width: 45.5%;
     height: 98%;
     position: absolute;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+#chat::-webkit-scrollbar {
+    background-color: #6a6f79;
+}
+#chat::-webkit-scrollbar-thumb {
+    background-color: rgb(41, 41, 41);
 }
 
 .avatar {
@@ -39,5 +46,5 @@
     color: rgb(206, 206, 206);
     background-color: #40444b;
     height: 20px;
-    width: 100%;
+    width: 76%;
 }
