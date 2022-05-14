@@ -3,6 +3,8 @@ async function loadingBot(token) {
     config.cfg.intents = new Discord.Intents(config.cfg.intents)
     global.bot = new Discord.Client(config.cfg)
 
+    bot.hideUnallowed = true
+
     bot.login(token)
         .then(() => {
             //changeConfig("token", token)
@@ -18,5 +20,13 @@ async function loadingBot(token) {
 
     bot.on("message", message => {
         parseMessage(message)
+    })
+
+    bot.on("messageDelete", message => {
+        deleteMessage(message.id)
+    })
+
+    bot.on("messageUpdate", (oldMessage, newMessage) => {
+        editMessage(oldMessage, newMessage)
     })
 }

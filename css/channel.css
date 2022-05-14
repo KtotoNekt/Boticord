@@ -6,6 +6,12 @@
 p.channel {
     left: 18px;
     position: relative;
+    padding: 0;
+    font-size: 17px;
+}
+
+.open-channel {
+    background-color: blanchedalmond;
 }
 
 #channels {
@@ -18,4 +24,23 @@ p.channel {
     overflow-y: scroll;
     overflow-x: hidden;
     color: rgb(177, 177, 177);
+}
+
+.unread-message {
+    color: white;
+}
+
+.mention {
+    background-color: rgb(107, 107, 235);
+    color: rgb(209, 209, 209)
+}
+
+.mention-new {
+    position: relative;
+    left: 5px;
+    background-color: red;
+    width: 11px;
+    height: 11px;
+    border-radius: 25px;
+    padding: 5px 10px 0 0;
 }

@@ -1,7 +1,6 @@
 const { writeFileSync, readFileSync } = require('fs')
 const { join } = require('path')
 const Discord = require('discord.js')
-const { send } = require('process')
 
 let guildCanvas
 let channelsCanvas
@@ -28,11 +27,6 @@ function windowOpen() {
             inputUser.value = ""
         }
     })
-}
-
-function parseMessage(message) {
-    if(openChannel === message.channel.id) 
-        addMessagesCanvas(message)
 }
 
 function removeElementsCanvas(id) {
@@ -102,7 +96,17 @@ function addChannelCanvas(channel) {
     p.id = channel.id
 
     p.onclick = (e) => {
+        if(openChannel)
+            document.getElementById(openChannel).classList.remove('open-channel')
+
+        if(p.classList[1] === "unread-message") {
+            p.classList.remove('unread-message') 
+            p.innerHTML = p.textContent
+        }
+
         openChannel = e.target.id
+    
+        document.getElementById(openChannel).classList.add('open-channel')
 
         removeElementsCanvas('.message')
         removeElementsCanvas('.member')
@@ -139,36 +143,6 @@ function addChannelCanvas(channel) {
         channelsCanvas.appendChild(p)
 }
 
-function addMessagesCanvas(message) {
-    const div = document.createElement('div')
-    const div2 = document.createElement('div')
-    const content = document.createElement('span')
-    const nick = document.createElement('span')
-    const avatar = document.createElement('img')
-
-    avatar.width = 40
-    avatar.height = 40
-    avatar.src = message.author.avatarURL() ? 
-                 message.author.avatarURL() : 
-                 join('..', "img", "default.png")
-    avatar.classList.add('avatar')
-    div.id = message.author.id
-    div.classList.add('message')
-    div2.classList.add('author')
-    nick.textContent = message.author.username
-    nick.classList.add('nick')
-    content.textContent = message.content
-    content.classList.add('content')
-
-    div2.appendChild(avatar)
-    div2.appendChild(nick)
-    div.appendChild(div2)
-    div.appendChild(content)
-    messagesCanvas.appendChild(div)
-
-    messagesCanvas.scrollTop = messagesCanvas.scrollHeight
-}
-
 function addMemberCanvas(member) {
     const div = document.createElement('div')
     const nick = document.createElement('span')
@@ -176,7 +150,9 @@ function addMemberCanvas(member) {
     const status = document.createElement('div')
 
     nick.textContent = member.displayName
-    avatar.src = member.user.avatarURL() ? member.user.avatarURL() : join('img', 'default.png')
+    avatar.src = member.user.avatarURL() ? 
+                 member.user.avatarURL() : 
+                 join('img', 'default.png')
     avatar.classList.add('avatar')
     div.id = member.id
     div.classList.add('member')

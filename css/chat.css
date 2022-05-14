@@ -48,3 +48,12 @@
     height: 20px;
     width: 76%;
 }
+
+.delete span.content {
+    color: rgb(170, 0, 0);
+}
+
+.edit {
+    font-size: 15px;
+    color: grey;
+}
