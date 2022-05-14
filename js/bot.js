@@ -5,7 +5,7 @@ async function loadingBot(token) {
 
     bot.login(token)
         .then(() => {
-            changeConfig("token", token)
+            //changeConfig("token", token)
         })
         .catch((e) => {
             document.querySelector("#error").textContent = "Неверный токен"

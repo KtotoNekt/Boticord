@@ -115,7 +115,22 @@ function addChannelCanvas(channel) {
             })
         })
 
-        ch.members.forEach(member => addMemberCanvas(member))
+        const online = []
+        const ofline = []
+        let i = 0
+
+        ch.members.forEach(member => {
+            if(!member.presence) {
+                ofline[i] = member
+            } else {
+                online[i] = member
+            }
+
+            i += 1
+        })
+
+        const members = online.concat(ofline)
+        members.forEach(member => addMemberCanvas(member))
     }
 
     if(category)
@@ -161,12 +176,12 @@ function addMemberCanvas(member) {
     const status = document.createElement('div')
 
     nick.textContent = member.displayName
-    avatar.src = member.user.avatarURL()
+    avatar.src = member.user.avatarURL() ? member.user.avatarURL() : join('img', 'default.png')
     avatar.classList.add('avatar')
     div.id = member.id
     div.classList.add('member')
     status.classList.add('status')
-    status.classList.add(member.presence.status)
+    status.classList.add(member.presence ? member.presence.status : "ofline")
 
     div.appendChild(avatar)
     div.appendChild(status)
