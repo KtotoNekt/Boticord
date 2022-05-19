@@ -44,19 +44,36 @@ function deleteMessage(messageId) {
 }
 
 function newMessageChannel(message) {
-    const channel = document.getElementById(message.channel.id)
-    message.mentions.users.forEach(user => {
-        if(user.id === global.bot.user.id) {
-            channel.innerHTML = `${channel.textContent}<time class="mention-new"></time>`
-            return
+    
+    if(openChannel === message.channel.id && openChannel) return
+    
+    try {
+        if(message.channel.type !== "DM") {
+            const channel = document.getElementById(message.channel.id)
+            message.mentions.users.forEach(user => {
+                if(user.id === global.bot.user.id) {
+                    channel.innerHTML = `${channel.textContent}<time class="mention-new"></time>`
+                    return
+                }
+            })
+            channel.classList.add('unread-message')
         }
-    })
-    channel.classList.add('unread-message')
+    } catch {console.log(message, openChannel, message.channel.type)}
 }
 
 function editMessage(oldMessage, newMessage) {
     if(openChannel !== newMessage.channel.id) return
 
     const message = document.getElementById(oldMessage.id).querySelector('.content')
-    message.innerHTML = `${newMessage.content} <time class="edit">(измененно)</time>`
+    try {
+        message.innerHTML = `${newMessage.content} <time class="edit">(измененно)</time>`
+    } catch(e) {
+        console.log(e)
+        console.log(oldMessage, newMessage, message)
+    }
+}
+
+function sendMessage(id) {
+    const message = inputUser.value
+    global.bot.channels.cache.get(id).send(message)
 }

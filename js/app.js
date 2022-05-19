@@ -9,6 +9,7 @@ let membersChannelCanvas
 let inputUser
 
 let openChannel
+let openDMChannel = false
 
 function windowOpen() {
     guildCanvas = document.querySelector("#guilds")
@@ -21,9 +22,16 @@ function windowOpen() {
     document.getElementById("author").style.visibility = "hidden"
     document.getElementById("main").style.visibility = "visible"
 
+    document.getElementById('dmchannels').onclick = () => {
+        removeElementsCanvas('.channel')
+        selectDmChannels()
+    }
+
     inputUser.addEventListener("keydown", (e) => {
         if(e.code === "Enter") {
-            sendMessage(openChannel)
+            if(openChannel)
+                sendMessage(openChannel)
+
             inputUser.value = ""
         }
     })
@@ -39,14 +47,14 @@ function addGuildCanvas(guild) {
     const img = document.createElement("img")
     
     img.src = guild.iconURL() ? guild.iconURL() : join('img', 'default.png')
-    img.width = 50
-    img.height = 50
     div.classList.add("guild")
+    div.id = guild.id
 
     div.onclick = () => {
         removeElementsCanvas('.channel')
         const notHaveCategory = []
-        const trash = []
+        const textChannel = []
+        const voiceChannel = []
         const categorys = []
         let i = 0
         
@@ -56,13 +64,15 @@ function addGuildCanvas(guild) {
             }
             else if(channel.type === "GUILD_CATEGORY") {
                 categorys[i] = channel
+            } else if(channel.type === "GUILD_TEXT") {
+                textChannel[i] = channel
             } else {
-                trash[i] = channel
+                voiceChannel[i] = channel
             }
             i += 1
         })
 
-        const channels = notHaveCategory.concat(categorys.concat(trash))
+        const channels = notHaveCategory.concat(categorys.concat(textChannel.concat(voiceChannel)))
         channels.forEach(channel => addChannelCanvas(channel))
     }
 
@@ -96,9 +106,14 @@ function addChannelCanvas(channel) {
     p.id = channel.id
 
     p.onclick = (e) => {
-        if(openChannel)
-            document.getElementById(openChannel).classList.remove('open-channel')
+        if(openChannel && !openDMChannel) {
+            try {
+                document.getElementById(openChannel).classList.remove('open-channel')
+            } catch(e) {console.log(e)}
+        }
 
+        openDMChannel = false
+        
         if(p.classList[1] === "unread-message") {
             p.classList.remove('unread-message') 
             p.innerHTML = p.textContent
@@ -120,12 +135,12 @@ function addChannelCanvas(channel) {
         })
 
         const online = []
-        const ofline = []
+        const offline = []
         let i = 0
 
         ch.members.forEach(member => {
             if(!member.presence) {
-                ofline[i] = member
+                offline[i] = member
             } else {
                 online[i] = member
             }
@@ -133,7 +148,7 @@ function addChannelCanvas(channel) {
             i += 1
         })
 
-        const members = online.concat(ofline)
+        const members = online.concat(offline)
         members.forEach(member => addMemberCanvas(member))
     }
 
@@ -152,20 +167,27 @@ function addMemberCanvas(member) {
     nick.textContent = member.displayName
     avatar.src = member.user.avatarURL() ? 
                  member.user.avatarURL() : 
-                 join('img', 'default.png')
+                 member.user.defaultAvatarURL
     avatar.classList.add('avatar')
     div.id = member.id
     div.classList.add('member')
     status.classList.add('status')
     status.classList.add(member.presence ? member.presence.status : "ofline")
 
+
+    if(!member.user.bot) {
+        div.onclick = (e) => {
+            removeElementsCanvas(".channel")
+            removeElementsCanvas(".member")
+            removeElementsCanvas(".message")
+
+            let id = e.path[0].id !== "" ? e.target.id : e.path[1].id
+            selectDmChannelMessages(global.bot.users.cache.get(id))
+        }
+    }
+
     div.appendChild(avatar)
     div.appendChild(status)
     div.appendChild(nick)
     membersChannelCanvas.appendChild(div)
-}
-
-function sendMessage(id) {
-    const message = inputUser.value
-    global.bot.channels.cache.get(id).send(message)
 }

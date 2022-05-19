@@ -29,4 +29,12 @@ async function loadingBot(token) {
     bot.on("messageUpdate", (oldMessage, newMessage) => {
         editMessage(oldMessage, newMessage)
     })
+
+    bot.on("guildCreate", (guild) => {
+        addGuildCanvas(guild)
+    })
+
+    bot.on('guildDelete', guild => {
+        document.getElementById(guild.id).remove()
+    })
 }
