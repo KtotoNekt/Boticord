@@ -1,4 +1,5 @@
 const { writeFileSync, readFileSync } = require('fs')
+const { ipcRenderer } = require('electron')
 const { join } = require('path')
 const Discord = require('discord.js')
 
@@ -7,9 +8,20 @@ let channelsCanvas
 let messagesCanvas
 let membersChannelCanvas
 let inputUser
+let userSettingsCanvas
+let statusBot
+let dropDownStatuses
+let displaySettings
+let lineNoName
+let guildLine
+
+let channelName
+// let addFriendBtn
+let guildName
 
 let openChannel
 let openDMChannel = false
+
 
 function windowOpen() {
     guildCanvas = document.querySelector("#guilds")
@@ -17,14 +29,37 @@ function windowOpen() {
     messagesCanvas = document.querySelector('#chat')
     membersChannelCanvas = document.querySelector('#channel-members')
     inputUser = document.querySelector("#input")
+    userSettingsCanvas = document.querySelector("#me")
+    statusBot = userSettingsCanvas.querySelector('div')
+    displaySettings = document.querySelector('#display-settings')
+    lineNoName = document.querySelector('#line-noname')
+    channelName = lineNoName.querySelector("#channel-name")
+    // addFriendBtn = lineNoName.querySelector("#add-friend")
+    guildLine = document.querySelector("#guild-line")
+    guildName = guildLine.querySelector("span")
 
     global.bot.guilds.cache.forEach(guild => addGuildCanvas(guild))
     document.getElementById("author").style.visibility = "hidden"
     document.getElementById("main").style.visibility = "visible"
 
+    const avatar = userSettingsCanvas.querySelector('img#avatar')
+    avatar.src = global.bot.user.avatarURL()
+    userSettingsCanvas.querySelector('span').textContent = global.bot.user.tag
+    statusBot.classList.add(global.bot.presence.status)
+    
+    createDropDownStatus()
+
     document.getElementById('dmchannels').onclick = () => {
+        guildName.textContent = "Личные сообщения"
         removeElementsCanvas('.channel')
-        selectDmChannels()
+        // selectDmChannels()
+    }
+
+    userSettingsCanvas.querySelector('img#set').onclick = () => {
+        dropDownStatuses.classList.add("statusDropDownNotOpen")
+        displaySettings.style.visibility = "visible"
+        document.getElementById("main").style.visibility = "hidden"
+        settingOptions()
     }
 
     inputUser.addEventListener("keydown", (e) => {
@@ -35,6 +70,10 @@ function windowOpen() {
             inputUser.value = ""
         }
     })
+
+    avatar.onclick = () => {
+        dropDownStatuses.classList.toggle("statusDropDownNotOpen")
+    }
 }
 
 function removeElementsCanvas(id) {
@@ -51,7 +90,10 @@ function addGuildCanvas(guild) {
     div.id = guild.id
 
     div.onclick = () => {
+        guildName.textContent = guild.name
+
         removeElementsCanvas('.channel')
+
         const notHaveCategory = []
         const textChannel = []
         const voiceChannel = []
@@ -109,7 +151,7 @@ function addChannelCanvas(channel) {
         if(openChannel && !openDMChannel) {
             try {
                 document.getElementById(openChannel).classList.remove('open-channel')
-            } catch(e) {console.log(e)}
+            } catch(err) {console.log(err)}
         }
 
         openDMChannel = false
@@ -126,7 +168,10 @@ function addChannelCanvas(channel) {
         removeElementsCanvas('.message')
         removeElementsCanvas('.member')
 
+
         const ch = global.bot.channels.cache.get(e.target.id)
+        channelName.textContent = ch.name
+
         ch.messages.fetch({limit: 100}).then(messages => {
             messages.reverse()
             messages.forEach(message => {
@@ -172,16 +217,20 @@ function addMemberCanvas(member) {
     div.id = member.id
     div.classList.add('member')
     status.classList.add('status')
-    status.classList.add(member.presence ? member.presence.status : "ofline")
+    status.classList.add(member.presence ? member.presence.status : "offline")
 
 
     if(!member.user.bot) {
         div.onclick = (e) => {
+            console.log(member)
+            channelName.textContent = member.user.username
+            guildName.textContent = "Личные сообщения"
             removeElementsCanvas(".channel")
             removeElementsCanvas(".member")
             removeElementsCanvas(".message")
 
-            let id = e.path[0].id !== "" ? e.target.id : e.path[1].id
+            // let id = e.path[0].id !== "" ? e.target.id : e.path[1].id
+            let id = member.id
             selectDmChannelMessages(global.bot.users.cache.get(id))
         }
     }

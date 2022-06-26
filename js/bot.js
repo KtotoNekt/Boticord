@@ -37,4 +37,9 @@ async function loadingBot(token) {
     bot.on('guildDelete', guild => {
         document.getElementById(guild.id).remove()
     })
+
+    // bot.on("clientUserSettingsUpdate", user => {
+    //     console.log(user)
+    //     addMemberCanvas(user)
+    // })
 }

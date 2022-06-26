@@ -6,8 +6,6 @@ function loginToken() {
     }
 }
 
-
-
 function checkDiscordToken(token) {
     const error = document.querySelector("#error")
 
@@ -17,11 +15,4 @@ function checkDiscordToken(token) {
     }
 
     loadingBot(token)
-}
-
-async function changeConfig(key, value) {
-    const config = readFileSync(join('json', 'config.json'), {encoding: "utf-8"})
-    const object = JSON.parse(config)
-    object[key] = value
-    writeFileSync(join('json', 'config.json'), JSON.stringify(object))
 }

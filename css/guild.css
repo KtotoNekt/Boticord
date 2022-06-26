@@ -1,9 +1,9 @@
 #guilds {
     align-items: center;
     position: absolute;
-    background-color: rgb(31, 31, 31);
+    background-color: rgb(26 25 31);
     width: 70px;
-    height: 99.9%;
+    height: 100%;
     left: 0;
     top: 0;
 }

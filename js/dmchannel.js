@@ -30,6 +30,10 @@ async function selectDmChannelMessages(user) {
     addMemberCanvas(member2)
 }
 
+function addDMChannelCanvas(user) {
+    
+}
+
 function selectDmChannels() {
     // readFileSync(join('json', "config.json"))
 }

@@ -15,11 +15,11 @@ p.channel {
 }
 
 #channels {
-    top: 0;
+    top: 50px;
     left: 70px;
     width: 250px;
-    background-color: rgb(41, 41, 41);
-    height: 99.9%;
+    background-color: rgb(43 42 48);
+    height: 90%;
     position: absolute;
     overflow-y: scroll;
     overflow-x: hidden;

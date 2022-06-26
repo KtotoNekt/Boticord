@@ -12,6 +12,7 @@
     <script src="js/bot.js"></script>
     <script src="js/message.js"></script>
     <script src="js/dmchannel.js"></script>
+    <script src="js/settings.js"></script>
         
     <!-- CSS -->
     <link rel="stylesheet" href="css/author.css">
@@ -20,6 +21,7 @@
     <link rel="stylesheet" href="css/chat.css">
     <link rel="stylesheet" href="css/guild.css">
     <link rel="stylesheet" href="css/channel.css">
+    <link rel="stylesheet" href="css/settings.css">
     
 </head>
 <body onload="loginToken()">
@@ -30,6 +32,13 @@
         <button id="login">Вход</button>
     </div>
     <div id="main">
+        <div id="guild-line">
+            <span></span>
+        </div>
+        <div id="line-noname">
+            <span id="channel-name"></span>
+            <!-- <img id="add-friend" src="./img/add-friend.png"> -->
+        </div>
         <div id="guilds">
             <img id="dmchannels" class="guild" src="./img/bot.png">
             <hr>
@@ -40,6 +49,34 @@
         <div id="user-input">
             <input id="input">
         </div>
+        <div id="me">
+            <img id="avatar">
+            <span></span>
+            <div></div>
+            <img id="set" src="./img/settings.png">
+        </div>
+    </div>
+    <div id="display-settings">
+        <div id="categories">
+            <div class="option open" id="account"><span>Моя учетная запись</span></div>
+        </div>
+        <div id="settings">
+            <div id="dis_account">
+                <div id="info-user">
+                    <img>
+                    <p class="inf-item">Имя бота: <span id="username"></span></p>
+                    <p class="inf-item">Родитель: <span id="owner" ></span></p>
+                    <p class="inf-item">Дата рождения: <span id="create-at"></span></p>
+                </div>
+                <div id="change-account">
+                    <h3>Редактирование аккаунта</h3>
+                    <input id="new-name">
+                    <button id="ch-name-btn">Изменить</button>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+        <img id="home" src="./img/home.png">
     </div>
 </body>
 </html>
