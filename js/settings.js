@@ -5,7 +5,7 @@ function changeStatus(status) {
 }
 
 async function changeConfig(key, value, subkey) {
-    const config = readFileSync(join('json', 'config.json'), {encoding: "utf-8"})
+    const config = readFileSync(join(__dirname, 'json', 'config.json'), {encoding: "utf-8"})
     const object = JSON.parse(config)
 
     if(subkey) {
@@ -14,7 +14,7 @@ async function changeConfig(key, value, subkey) {
         object[key] = value
     }
 
-    writeFileSync(join('json', 'config.json'), JSON.stringify(object))
+    writeFileSync(join(__dirname, 'json', 'config.json'), JSON.stringify(object))
 }
 
 function createDropDownStatus() {

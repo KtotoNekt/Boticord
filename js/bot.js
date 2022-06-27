@@ -1,5 +1,5 @@
 async function loadingBot(token) {
-    const config = JSON.parse(readFileSync(join("json", 'config.json'), {encoding: 'utf-8'}))
+    const config = JSON.parse(readFileSync(join(__dirname, "json", 'config.json'), {encoding: 'utf-8'}))
     config.cfg.intents = new Discord.Intents(config.cfg.intents)
     global.bot = new Discord.Client(config.cfg)
 

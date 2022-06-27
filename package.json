@@ -1,18 +1,19 @@
 {
   "name": "boticord",
   "version": "1.0.0",
-  "description": "",
+  "description": "Дискорд, но для ботов",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "author": "",
+  "author": "Ktoto <nosay@lol.com>",
+  "homepage": "https://notabug.org/Ktoto",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^13.6.0"
   },
   "devDependencies": {
     "electron": "^18.2.0",
-    "electron-builder": "^23.0.3"
+    "electron-builder": "^23.1.0"
   }
 }
