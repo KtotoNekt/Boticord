@@ -48,7 +48,7 @@ function newMessageChannel(message) {
     if(openChannel === message.channel.id && openChannel) return
     
     try {
-        if(message.channel.type !== "DM") {
+        if(message.channel.type !== "DM" && message.guild.id == openGuild) {
             const channel = document.getElementById(message.channel.id)
             message.mentions.users.forEach(user => {
                 if(user.id === global.bot.user.id) {

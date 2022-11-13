@@ -1,6 +1,6 @@
 #channel-members {
     position: absolute;
-    background-color: rgb(43 42 48);
+    background-color: #2F3136;
     height: 91.3%;
     width: 250px;
     right: 0;
@@ -22,6 +22,22 @@
     color: #bfbfbf;
 }
 
+.member-voice {
+    margin: 5px 0px 0 26px;
+}
+
+.member-voice > span {
+    position: relative;
+    font-size: 15px;
+    bottom: 7px;
+    left: 8px;
+}
+
+.member-voice > img {
+    width: 25px;
+    border-radius: 25px;
+}
+
 .avatar {
     width: 40px
 }
@@ -39,14 +55,14 @@
     background-color: rgb(0, 197, 0);
 }
 .offline {
-    background-color: rgb(117, 117, 117);
+    background-color: #6B7581;
 }
 .invisible {
-    background-color: rgb(117, 117, 117);
+    background-color: #6B7581;
 }
 .idle {
-    background-color: rgb(221, 221, 48);
+    background-color: #FAA81A;
 }
 .dnd {
-    background-color: rgb(172, 0, 0);
+    background-color: #ED4245;
 }

@@ -38,6 +38,25 @@ async function loadingBot(token) {
         document.getElementById(guild.id).remove()
     })
 
+    bot.on("voiceStateUpdate", voiceState => {
+        console.log(voiceState.guild.id, openGuild)
+        if (openGuild === voiceState.guild.id) {
+            const voiceImgs = document.querySelectorAll(".channel > img[src='img/voiceChannel.svg']")
+            voiceImgs.forEach(voiceImg => {
+            bot.channels.fetch(voiceImg.parentElement.id)
+                .then(voice => {
+                    const voice_users = document.getElementById(`${voiceImg.parentElement.id}`)
+                    voice_users.querySelectorAll(".member-voice").forEach(el => el.remove())
+                    voice.members.mapValues(mVoice => {
+                        voice_users.append(addMemberVoice(mVoice))
+                    })
+                })
+            })
+        }
+
+
+    }) 
+
     // bot.on("clientUserSettingsUpdate", user => {
     //     console.log(user)
     //     addMemberCanvas(user)

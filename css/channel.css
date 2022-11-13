@@ -3,27 +3,41 @@
     font-size: 20px;
 }
 
-p.channel {
+.channel {
     left: 18px;
     position: relative;
     padding: 0;
     font-size: 17px;
+    padding: 0 0 10px 0;
+}
+
+.channel > img {
+    position: relative;
+    top: 3.5px;
+    width: 17px;
+}
+
+.channel > span {
+    margin: 0 8px;
 }
 
 .open-channel {
-    background-color: blanchedalmond;
+    background-color: #42464D;
+    width: 210px;
+    border-radius: 5px;
+    height: 22px;
 }
 
 #channels {
     top: 50px;
     left: 70px;
     width: 250px;
-    background-color: rgb(43 42 48);
-    height: 90%;
+    background-color: #2F3136;
+    height: 83%;
     position: absolute;
     overflow-y: scroll;
     overflow-x: hidden;
-    color: rgb(177, 177, 177);
+    color: #9e9e9e
 }
 
 .unread-message {

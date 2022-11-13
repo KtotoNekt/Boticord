@@ -1,6 +1,6 @@
 body {
     overflow-x: hidden;
-    background-color: #393f4b;
+    background-color: #36393F;
 }
 
 #main {
@@ -17,7 +17,7 @@ body {
 }
 
 #line-noname {
-    background-color: rgb(43 42 48);
+    background-color: #2F3136;
     height: 50px;
     position: relative;
     top: 0;
@@ -30,7 +30,7 @@ body {
 }
 
 #guild-line {
-    background-color: rgb(43 42 48);
+    background-color: #2F3136;
     position: absolute;
     left: 70px;
     width: 250px;
