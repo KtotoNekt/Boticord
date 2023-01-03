@@ -8,11 +8,13 @@ function loginToken() {
 
 function checkDiscordToken(token) {
     const error = document.querySelector("#error")
+    error.textContent = ""
 
     if(token === "") {
         error.textContent = "Пустой токен"
         return
     }
 
-    loadingBot(token)
+    const isEnableIntents = document.getElementById('is-on-intents').checked
+    loadingBot(token, isEnableIntents)
 }

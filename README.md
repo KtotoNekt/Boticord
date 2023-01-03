@@ -33,7 +33,8 @@
 
 # Призентация
 ## Окно входа:
-<img src="img/login.png">
+<img src="img/readme/login.png">
 
 ## Сам **Boticord**:
-<img src="img/chat.png">
+<img src="img/readme/chat.png">
+<img src="img/readme/settings.png">

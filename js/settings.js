@@ -65,26 +65,43 @@ function accountSettings() {
     const username = displaySettings.querySelector('#username')
     const owner = displaySettings.querySelector("#owner")
     const createAt = displaySettings.querySelector("#create-at")
+
+    const error = displaySettings.querySelector("#change-account > p")
+
     const btnChangeName = displaySettings.querySelector("#ch-name-btn")
     const newNameInput = displaySettings.querySelector("#new-name")
+
+    const btnChangeAvatar = displaySettings.querySelector("#ch-avatar-btn")
+    const fileInputAvatar = displaySettings.querySelector("#new-avatar")
 
     newNameInput.placeholder = global.bot.user.username
     username.textContent = global.bot.user.tag
     owner.textContent = global.bot.application.owner !== null ? 
                          global.bot.application.owner :
                          "Ты пробирочный :)"
-    avatar.src = global.bot.user.avatarURL()
+    avatar.src = global.bot.user.avatarURL() ? global.bot.user.avatarURL() : join(__dirname, "img", "default.png")
     _crAt = global.bot.user.createdAt
     createAt.textContent = `${_crAt.getDate()}.${_crAt.getMonth()+1}.${_crAt.getFullYear()} в ${_crAt.getHours()}:${_crAt.getMinutes()}`
 
     btnChangeName.onclick = async () => {
-        console.log(newNameInput.value)
-        await global.bot.user.setUsername(newNameInput.value).catch((e) => {
+        await global.bot.user.setUsername(newNameInput.value).catch(e => {
             console.error(e)
-            displaySettings.querySelector("#change-account > p").textContent = "Возникла ошибка при изменении имени бота"
+            error.textContent = "Возникла ошибка при изменении имени бота"
         })
+
         accountSettings()
         userSettingsCanvas.querySelector('span').textContent = global.bot.user.tag
+    }
+
+    btnChangeAvatar.onclick = async () => {
+        const path = fileInputAvatar.files[0].path
+        await global.bot.user.setAvatar(readFileSync(path)).catch(e => {
+            console.error(e)
+            error.textContent = "Возникла ошибка при изменении аватара бота"
+        })
+
+        accountSettings()
+        userSettingsCanvas.querySelector('img#avatar').src = global.bot.user.avatarURL()
     }
 }
 

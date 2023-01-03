@@ -1,7 +1,14 @@
-const { writeFileSync, readFileSync } = require('fs')
-const { ipcRenderer } = require('electron')
+const { writeFileSync, readFileSync, createReadStream, ReadStream, fstat, createWriteStream, unlink } = require('fs')
 const { join } = require('path')
 const Discord = require('discord.js')
+const { joinVoiceChannel, getVoiceConnection} = require('@discordjs/voice')
+const { EndBehaviorType } = require('@discordjs/voice')
+// const { OpusEncoder } = require('@discordjs/opus');
+const { pipeline } = require('stream')
+const ffmpeg = require('ffmpeg')
+
+
+// const encoder = new OpusEncoder(48000, 2);
 
 let guildCanvas
 let channelsCanvas
@@ -14,18 +21,21 @@ let dropDownStatuses
 let displaySettings
 let lineNoName
 let guildLine
+let audioVoiceChat
 
 let channelName
-// let addFriendBtn
 let guildName
 
 let openChannel
 let openDMChannel = false
 let openGuild
+let voiceConnect = {
+    guildId: null,
+    channelId: null
+}
 
 
 function windowOpen() {
-    console.log(global.bot)
     guildCanvas = document.querySelector("#guilds")
     channelsCanvas = document.querySelector('#channels')
     messagesCanvas = document.querySelector('#chat')
@@ -36,16 +46,17 @@ function windowOpen() {
     displaySettings = document.querySelector('#display-settings')
     lineNoName = document.querySelector('#line-noname')
     channelName = lineNoName.querySelector("#channel-name")
-    // addFriendBtn = lineNoName.querySelector("#add-friend")
     guildLine = document.querySelector("#guild-line")
     guildName = guildLine.querySelector("span")
+    audioVoiceChat = document.querySelector("#voice-chat")
 
     global.bot.guilds.cache.forEach(guild => addGuildCanvas(guild))
     document.getElementById("author").style.visibility = "hidden"
     document.getElementById("main").style.visibility = "visible"
 
     const avatar = userSettingsCanvas.querySelector('img#avatar')
-    avatar.src = global.bot.user.avatarURL()
+    console.log(global.bot.user.avatarURL() ? global.bot.user.avatarURL() : join(__dirname, "img", "default.png"))
+    avatar.src = global.bot.user.avatarURL() ? global.bot.user.avatarURL() : join(__dirname, "img", "default.png")
     userSettingsCanvas.querySelector('span').textContent = global.bot.user.tag
     statusBot.classList.add(global.bot.presence.status)
 
@@ -108,7 +119,7 @@ function addGuildCanvas(guild) {
         }
         openGuild = guild.id
         guildName.textContent = guild.name
-        
+
         div.classList.add("open-guild")
 
         removeElementsCanvas('.channel')
@@ -182,7 +193,7 @@ function addChannelCanvas(channel) {
     const category = document.getElementById(channel.parentId)
     const p = document.createElement('span')
     let icon = document.createElement("img")
-    
+
     let voice_users
 
     div.classList.add('channel')
@@ -250,6 +261,56 @@ function addChannelCanvas(channel) {
         channel.members.mapValues(member => {
             voice_users.appendChild(addMemberVoice(member))
         })
+
+        div.onclick = (e) => {
+            if (voiceConnect.channelId) {
+                getVoiceConnection(voiceConnect.guildId).disconnect()
+            }
+
+            if (voiceConnect.channelId == channel.id) {
+                voiceConnect.channelId = null
+                voiceConnect.guildId = null
+            } else {
+                voiceConnect.channelId = channel.id
+                voiceConnect.guildId = channel.guild.id
+
+                const voiceCon = joinVoiceChannel({
+                    channelId: channel.id,
+                    guildId: channel.guild.id,
+                    selfDeaf: false,
+                    selfMute: false,
+                    adapterCreator: channel.guild.voiceAdapterCreator,
+                })
+                // const receiver = voiceCon.receiver
+                // receiver.speaking.on("start", async userId => {
+                //     const path = join(__dirname, "audio", userId)
+                //     const opusStream = receiver.subscribe(userId, {
+                //         end:{
+                //             behavior: EndBehaviorType.AfterSilence,
+                //             duration: 100
+                //         }
+                //     })
+
+                //     const out = createWriteStream(path+".pcm")
+
+                //     pipeline(opusStream, out, err => {
+                //         console.log('pipeline: ' + err)
+                //     })
+
+                //     const process = new ffmpeg(path+".pcm")
+                //     process.then(aud => {
+                //         aud.fnExtractSoundToMP3(path+".mp3", async (err, file) => {
+                //             unlinkSync(path+".pcm")
+                //             unlinkSync(path+".mp3")
+                //             audioVoiceChat.src = path+".mp3"
+                //             audioVoiceChat.play()
+                //         })
+                //     }).catch(e => {
+                //         console.log('ffmpeg: ' + e)
+                //     })
+                // })
+            }
+        }
     }
 
     div.appendChild(icon)

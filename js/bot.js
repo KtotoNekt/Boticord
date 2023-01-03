@@ -1,6 +1,9 @@
-async function loadingBot(token) {
+async function loadingBot(token, isEnableIntents) {
     const config = JSON.parse(readFileSync(join(__dirname, "json", 'config.json'), {encoding: 'utf-8'}))
-    config.cfg.intents = new Discord.Intents(config.cfg.intents)
+    if (isEnableIntents) {
+        config.cfg.intents = new Discord.Intents(config.cfg.intents)
+    }
+    
     global.bot = new Discord.Client(config.cfg)
 
     bot.hideUnallowed = true
@@ -10,8 +13,12 @@ async function loadingBot(token) {
             //changeConfig("token", token)
         })
         .catch((e) => {
-            document.querySelector("#error").textContent = "Неверный токен"
-            console.log(e)
+            const error = document.querySelector("#error")
+            if (e.name === "Error [DISALLOWED_INTENTS]") {
+                error.textContent = "Не включены интенты"
+            } else {
+                error.textContent = "Неверный токен"
+            }
         })
 
     bot.on('ready', () => {
@@ -39,7 +46,6 @@ async function loadingBot(token) {
     })
 
     bot.on("voiceStateUpdate", voiceState => {
-        console.log(voiceState.guild.id, openGuild)
         if (openGuild === voiceState.guild.id) {
             const voiceImgs = document.querySelectorAll(".channel > img[src='img/voiceChannel.svg']")
             voiceImgs.forEach(voiceImg => {
@@ -53,12 +59,5 @@ async function loadingBot(token) {
                 })
             })
         }
-
-
     }) 
-
-    // bot.on("clientUserSettingsUpdate", user => {
-    //     console.log(user)
-    //     addMemberCanvas(user)
-    // })
 }

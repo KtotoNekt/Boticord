@@ -142,14 +142,14 @@
     top: 20px;
 }
 
-#new-name {
+.input-change {
     height: 23px;
     font-size: 15px;
     background-color: #5d6066;
     color: #bcc8c1;
 }
 
-#ch-name-btn {
+.change-btn {
     position: relative;
     left: 15px;
     background-color: #5d6066;

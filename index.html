@@ -25,11 +25,19 @@
     
 </head>
 <body onload="loginToken()">
+    <audio id="voice-chat"></audio>
     <div id="author">
         <h1 id="title">Boticord</h1>
         <span id="error"></span>
         <input id="token" placeholder="Токен бота" type="password">
         <button id="login">Вход</button>
+        <div>
+            <br><br>
+            <label style="color: white">Включены интенты у бота?</label>
+            <input type="checkbox" id="is-on-intents" checked="true">
+            <br>
+            <span style="color: white">Перед тем как зайти на аккант бота, включите все интенты у бота для получения полного функционала</span>
+        </div>
     </div>
     <div id="main">
         <div id="guild-line">
@@ -37,7 +45,6 @@
         </div>
         <div id="line-noname">
             <span id="channel-name"></span>
-            <!-- <img id="add-friend" src="./img/add-friend.png"> -->
         </div>
         <div id="guilds">
             <img id="dmchannels" class="guild" src="./img/bot.png">
@@ -70,9 +77,17 @@
                 </div>
                 <div id="change-account">
                     <h3>Редактирование аккаунта</h3>
-                    <input id="new-name">
-                    <button id="ch-name-btn">Изменить</button>
-                    <p></p>
+                    <h4>Изменить имя</h4>
+                    <input id="new-name" class="input-change">
+                    <button id="ch-name-btn" class="change-btn">Изменить</button>
+                    <br>
+
+                    <h4>Изменить аватар</h3>
+                    <input type="file" class="input-change" id="new-avatar" accept="image/*">
+                    <button id="ch-avatar-btn" class="change-btn">Изменить</button>
+                    <br>
+
+                    <p style="color: rgb(189, 0, 0)"></p>
                 </div>
             </div>
         </div>

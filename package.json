@@ -1,6 +1,6 @@
 {
   "name": "boticord",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Дискорд, но для ботов",
   "main": "main.js",
   "scripts": {
@@ -8,9 +8,14 @@
   },
   "author": "Ktoto <nosay@lol.com>",
   "homepage": "https://notabug.org/Ktoto",
-  "license": "ISC",
+  "license": "GPL",
   "dependencies": {
-    "discord.js": "^13.6.0"
+    "@discordjs/opus": "^0.8.0",
+    "@discordjs/voice": "^0.13.0",
+    "discord.js": "^13.6.0",
+    "ffmpeg": "^0.0.4",
+    "sodium": "^3.0.2",
+    "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
     "electron": "^18.2.0",
