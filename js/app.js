@@ -1,11 +1,11 @@
 const { writeFileSync, readFileSync, createReadStream, ReadStream, fstat, createWriteStream, unlink } = require('fs')
 const { join } = require('path')
 const Discord = require('discord.js')
-const { joinVoiceChannel, getVoiceConnection} = require('@discordjs/voice')
+const { joinVoiceChannel, getVoiceConnection } = require('@discordjs/voice')
 const { EndBehaviorType } = require('@discordjs/voice')
-// const { OpusEncoder } = require('@discordjs/opus');
-const { pipeline } = require('stream')
-const ffmpeg = require('ffmpeg')
+    // const { OpusEncoder } = require('@discordjs/opus');
+    // const { pipeline } = require('stream')
+    // const ffmpeg = require('ffmpeg')
 
 
 // const encoder = new OpusEncoder(48000, 2);
@@ -134,8 +134,7 @@ function addGuildCanvas(guild) {
         guild.channels.cache.forEach(channel => {
             if (channel.parentId === null && channel.type !== "GUILD_CATEGORY") {
                 notHaveCategory[i] = channel
-            }
-            else if (channel.type === "GUILD_CATEGORY") {
+            } else if (channel.type === "GUILD_CATEGORY") {
                 categorys[i] = channel
             } else if (channel.type === "GUILD_TEXT") {
                 textChannel[i] = channel
@@ -174,8 +173,8 @@ function addMemberVoice(member) {
     user.id = member.id
     nickname.textContent = member.displayName
     avatarMember.src = member.user.avatarURL() ?
-                member.user.avatarURL() :
-                member.user.defaultAvatarURL
+        member.user.avatarURL() :
+        member.user.defaultAvatarURL
 
     user.appendChild(avatarMember)
     user.appendChild(nickname)
@@ -275,21 +274,21 @@ function addChannelCanvas(channel) {
                 voiceConnect.guildId = channel.guild.id
 
                 const voiceCon = joinVoiceChannel({
-                    channelId: channel.id,
-                    guildId: channel.guild.id,
-                    selfDeaf: false,
-                    selfMute: false,
-                    adapterCreator: channel.guild.voiceAdapterCreator,
-                })
-                // const receiver = voiceCon.receiver
-                // receiver.speaking.on("start", async userId => {
-                //     const path = join(__dirname, "audio", userId)
-                //     const opusStream = receiver.subscribe(userId, {
-                //         end:{
-                //             behavior: EndBehaviorType.AfterSilence,
-                //             duration: 100
-                //         }
-                //     })
+                        channelId: channel.id,
+                        guildId: channel.guild.id,
+                        selfDeaf: false,
+                        selfMute: false,
+                        adapterCreator: channel.guild.voiceAdapterCreator,
+                    })
+                    // const receiver = voiceCon.receiver
+                    // receiver.speaking.on("start", async userId => {
+                    //     const path = join(__dirname, "audio", userId)
+                    //     const opusStream = receiver.subscribe(userId, {
+                    //         end:{
+                    //             behavior: EndBehaviorType.AfterSilence,
+                    //             duration: 100
+                    //         }
+                    //     })
 
                 //     const out = createWriteStream(path+".pcm")
 
