@@ -2,6 +2,7 @@ const { app, BrowserWindow } = require('electron')
 const { join } = require("path")
 
 const width = 1080
+const height = 600
 
 let win
 
@@ -10,7 +11,8 @@ async function createWindow() {
         width: width,
         minWidth: width,
         maxWidth: width,
-        minHeight: 500,
+        minHeight: height,
+        maxHeight: height,
         icon: join(__dirname, "img", "icon.png"),
         backgroundColor: "#444444",
         webPreferences: {

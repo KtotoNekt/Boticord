@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,15 @@
     <script src="js/bot.js"></script>
     <script src="js/message.js"></script>
     <script src="js/dmchannel.js"></script>
-    <script src="js/settings.js"></script>
+    <script src="js/settings/account.js"></script>
+    <script src="js/settings/settings.js"></script>
+    <script src="js/settings/guild/base.js"></script>
+    <script src="js/settings/guild/emoji.js"></script>
+    <script src="js/settings/guild/role.js"></script>
+    <script src="js/settings/guild/invite.js"></script>
+    <script src="js/settings/guild/audit-journal.js"></script>
+    <script src="js/settings/guild/bans.js"></script>
+    
         
     <!-- CSS -->
     <link rel="stylesheet" href="css/author.css">
@@ -21,7 +30,14 @@
     <link rel="stylesheet" href="css/chat.css">
     <link rel="stylesheet" href="css/guild.css">
     <link rel="stylesheet" href="css/channel.css">
-    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="css/settings/settings.css">
+    <link rel="stylesheet" href="css/settings/invite.css">
+    <link rel="stylesheet" href="css/settings/role.css">
+    <link rel="stylesheet" href="css/settings/emojis.css">
+    <link rel="stylesheet" href="css/settings/audit-journal.css">
+    <link rel="stylesheet" href="css/settings/bans.css">
+    <link rel="stylesheet" href="css/dragula.css">
+    
     
 </head>
 <body onload="loginToken()">
@@ -42,6 +58,7 @@
     <div id="main">
         <div id="guild-line">
             <span></span>
+            <img>
         </div>
         <div id="line-noname">
             <span id="channel-name"></span>
@@ -63,35 +80,332 @@
             <img id="set" src="./img/settings.png">
         </div>
     </div>
+    <div id="guild-settings">
+
+        <!-- Категории настроек -->
+        <div class="categories">
+            <div class="option open" id="overview">
+                <span>Обзор</span>
+            </div>
+            <div class="option" id="roles">
+                <span>Роли</span>
+            </div>
+            <div class="option" id="emojis">
+                <span>Эмодзи</span>
+            </div>
+            <!-- <div class="option" id="bans">
+                <span>Баны</span>
+            </div> -->
+            <!-- <div class="option" id="audit-journal">
+                <span>Журнал аудита</span>
+            </div> -->
+            <!-- <div class="option" id="invites">
+                <span>Приглашения</span>
+            </div> -->
+        </div>
+
+        <div class="settings">
+            
+            <!-- Дисплей настроек -->
+            <div class="dis_set">
+
+                <!-- Обзор сервера -->
+                <div id="overview-dis" class="display-set">
+                    <div class="info-set">
+                        <img>
+                        <p class="inf-item">Название: <span id="guildname"></span></p>
+                        <p class="inf-item">Дата создания: <span id="create-at"></span></p>
+                        <p class="inf-item">Создатель: <span id="owner" ></span></p>
+                    </div>
+                    <div class="change-set">
+                        <h3>Редактирование сервера</h3>
+                        <h4>Изменить название</h4>
+                        <input id="new-name" class="input-change">
+                        <button id="ch-name-btn" class="change-btn">Изменить</button>
+                        <br>
+
+                        <h4>Изменить иконку</h4>
+                        <input type="file" class="input-change" id="new-avatar" accept="image/*">
+                        <button id="ch-avatar-btn" class="change-btn">Изменить</button>
+                        <br>
+
+                        <p class="error"></p>
+                    </div>
+                </div>
+
+                <!-- Баны -->
+                <div id="bans-dis" class="display-set">
+                    <h3>Идет проверка...</h3>
+                    
+                    <div id="list-bans">
+                        
+                    </div>
+                </div>
+
+                <!-- Журнал аудита -->
+                <div id="audit-journal-dis" class="display-set">
+                    <h3>Журнал аудита</h3>
+                    <!-- <span id="filter-user">Фильтр по пользователям</span>
+                    <span id="filter-actions">Фильтр по действиям</span> -->
+                    
+                    <div id="actions">
+                        
+                    </div>
+                </div>
+
+                <!-- Список приглашений -->
+                <div id="invites-dis" class="display-set">
+                    <h3>Список приглашений</h3>
+                    <div id="invite-definitions">
+                        <span>ПРИГЛАШАЮЩИЙ</span>
+                        <span>КОД ПРИГЛАШЕНИЯ</span>
+                        <span>ИСПОЛЬЗОВАНИЙ</span>
+                        <span>ИСТЕКАЕТ</span>
+                    </div>
+                    <div id="list-invites">
+                        
+                    </div>
+                </div>
+
+                <!-- Эмодзи -->
+                <div id="emojis-dis" class="display-set">
+                    <h3>Эмодзи</h3>
+                    
+                    <div id="create-emoji-div">
+                        <input type="file">
+                        <button id="emoji-add-btn" class="change-btn">Загрузить эмодзи</button>
+                        <p class="error"></p>
+                    </div>
+
+                    <div id="list-emojis">
+
+                    </div>
+                </div>
+
+                <!-- Роли -->
+                <div id="roles-dis" class="display-set">
+                    <h3>Роли</h3>
+                    <!-- <img src="./img/add.png" class="add-btn"> -->
+
+                    <div id="total-roles">
+                        <div id="no-dragula-list-roles">
+                        
+                        </div>
+    
+                        <div id="list-roles">
+    
+                        </div>
+
+                    </div>
+                    
+                    <div id="role-settings">
+                        <h3>Настройки роли</h3>
+                        <div id="div-role-set">
+                            <h4 id="integration">Это роль не управляется какой либо интеграцией</h4>
+                            <p><b>ID: </b><span id="role-id"></span></p>
+                            <hr>
+
+                            <h4>Название роли</h4>
+                            <input id="role-name">
+
+                            <h4>Цвет роли</h4>
+                            <input type="color" id="role-color">
+                            
+                            <br>
+                            <hr>
+
+                            <span><b>Показывать участников с ролью отдельно от остальных участников в сети</b></span>
+                            <input type="checkbox" id="hoist"><br><br>
+
+                            <span><b>Позволить всем @упоминать эту роль</b></span>
+                            <input type="checkbox" id="mentionable">
+
+                            <hr>
+                            <div id="permissions-role">
+                                <span><b>Просматривать каналы</b></span>
+                                <input type="checkbox" id="ViewChannel"><br><br>
+
+                                <span><b>Управлять каналами</b></span>
+                                <input type="checkbox" id="ManageChannels"><br><br>
+
+                                <span><b>Управлять ролями</b></span>
+                                <input type="checkbox" id="ManageRoles"><br><br>
+
+                                <span><b>Управлять эмодзи и стикерами</b></span>
+                                <input type="checkbox" id="ManageEmojisAndStickers"><br><br>
+
+                                <span><b>Просматривать журнал аудита</b></span>
+                                <input type="checkbox" id="ViewAuditLog"><br><br>
+
+                                <span><b>Управлять вебхуками</b></span>
+                                <input type="checkbox" id="ManageWebhooks"><br><br>
+
+                                <span><b>Управлять сервером</b></span>
+                                <input type="checkbox" id="ManageGuild"><br><br>
+
+                                <hr>
+
+                                <span><b>Создание приглашения</b></span>
+                                <input type="checkbox" id="CreateInstantInvite"><br><br>
+
+                                <span><b>Изменить никнейм</b></span>
+                                <input type="checkbox" id="ChangeNickname"><br><br>
+
+                                <span><b>Управлять никнеймами</b></span>
+                                <input type="checkbox" id="ManageNicknames"><br><br>
+
+                                <span><b>Выгонять участников</b></span>
+                                <input type="checkbox" id="KickMembers"><br><br>
+
+                                <span><b>Банить участников</b></span>
+                                <input type="checkbox" id="BanMembers"><br><br>
+
+                                <span><b>Отправить участников подумать о своём поведении</b></span>
+                                <input type="checkbox" id="ModerateMembers"><br><br>
+
+                                <hr>
+
+                                <span><b>Отправлять сообщения</b></span>
+                                <input type="checkbox" id="SendMessages"><br><br>
+
+                                <span><b>Отправлять сообщения в ветках</b></span>
+                                <input type="checkbox" id="SendMessagesInThreads"><br><br>
+
+                                <span><b>Создать публичные ветки</b></span>
+                                <input type="checkbox" id="CreatePublicThreads"><br><br>
+
+                                <span><b>Создание приватных веток</b></span>
+                                <input type="checkbox" id="CreatePrivateThreads"><br><br>
+
+                                <span><b>Встраивать ссылки</b></span>
+                                <input type="checkbox" id="EmbedLinks"><br><br>
+
+                                <span><b>Прикреплять файлы</b></span>
+                                <input type="checkbox" id="AttachFiles"><br><br>
+
+                                <span><b>Добавлять реакции</b></span>
+                                <input type="checkbox" id="AddReactions"><br><br>
+
+                                <span><b>Использовать внешние эмодзи</b></span>
+                                <input type="checkbox" id="UseExternalEmojis"><br><br>
+
+                                <span><b>Использовать внешние стикеры</b></span>
+                                <input type="checkbox" id="UseExternalStickers"><br><br>
+
+                                <span><b>Упоминание @everyone, @here и всех ролей</b></span>
+                                <input type="checkbox" id="MentionEveryone"><br><br>
+
+                                <span><b>Управлять сообщениями</b></span>
+                                <input type="checkbox" id="ManageMessages"><br><br>
+
+                                <span><b>Управление ветками</b></span>
+                                <input type="checkbox" id="ManageThreads"><br><br>
+
+                                <span><b>Читать историю сообщений</b></span>
+                                <input type="checkbox" id="ReadMessageHistory"><br><br>
+
+                                <span><b>Отправка сообщений text-to-speech</b></span>
+                                <input type="checkbox" id="SendTTSMessages"><br><br>
+
+                                <span><b>Использовать команды приложений</b></span>
+                                <input type="checkbox" id="UseApplicationCommands"><br><br>
+
+                                <span><b>Отправлять голосовые сообщения</b></span>
+                                <input type="checkbox" id="SendVoiceMessages"><br><br>
+
+                                <hr>
+
+                                <span><b>Подключаться к голосовому каналу</b></span>
+                                <input type="checkbox" id="Connect"><br><br>
+
+                                <span><b>Говорить</b></span>
+                                <input type="checkbox" id="Speak"><br><br>
+
+                                <span><b>Видео</b></span>
+                                <input type="checkbox" id="Stream"><br><br>
+
+                                <span><b>Использовать активности</b></span>
+                                <input type="checkbox" id="UseEmbeddedActivities"><br><br>
+
+                                <span><b>Использовать звуковую панель</b></span>
+                                <input type="checkbox" id="UseSoundboard"><br><br>
+
+                                <span><b>Использовать внешние звуки</b></span>
+                                <input type="checkbox" id="UseExternalSounds"><br><br>
+
+                                <span><b>Использовать режим активации по голосу</b></span>
+                                <input type="checkbox" id="UseVAD"><br><br>
+
+                                <span><b>Приоритетный режим</b></span>
+                                <input type="checkbox" id="PrioritySpeaker"><br><br>
+
+                                <span><b>Отключать участникам микрофон</b></span>
+                                <input type="checkbox" id="MuteMembers"><br><br>
+
+                                <span><b>Отключать участникам звук</b></span>
+                                <input type="checkbox" id="DeafenMembers"><br><br>
+
+                                <span><b>Перемещать участников</b></span>
+                                <input type="checkbox" id="MoveMembers"><br><br>
+
+                                <hr>
+
+                                <span><b>Управление событиями</b></span>
+                                <input type="checkbox" id="ManageEvents"><br><br>
+
+                                <hr>
+
+                                <span><b>Администратор</b></span>
+                                <input type="checkbox" id="Administrator"><br><br>
+                            </div>
+
+                            <hr>
+
+                            <button id="change-role-set" class="change-btn">Применить</button>
+                            <button id="delete-role" class="btn-delete">Удалить</button>
+                            <br>
+
+                            <p class="error"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <img class="home" src="./img/home.png">
+    </div>
     <div id="display-settings">
-        <div id="categories">
+        <div class="categories">
             <div class="option open" id="account"><span>Моя учетная запись</span></div>
         </div>
-        <div id="settings">
-            <div id="dis_account">
-                <div id="info-user">
-                    <img>
-                    <p class="inf-item">Имя бота: <span id="username"></span></p>
-                    <p class="inf-item">Родитель: <span id="owner" ></span></p>
-                    <p class="inf-item">Дата рождения: <span id="create-at"></span></p>
-                </div>
-                <div id="change-account">
-                    <h3>Редактирование аккаунта</h3>
-                    <h4>Изменить имя</h4>
-                    <input id="new-name" class="input-change">
-                    <button id="ch-name-btn" class="change-btn">Изменить</button>
-                    <br>
+        <div class="settings">
+            <div class="dis_set">
+                <div id="account-dis" class="display-set">
+                    <div class="info-set">
+                        <img>
+                        <p class="inf-item">Имя бота: <span id="username"></span></p>
+                        <p class="inf-item">Родитель: <span id="owner" ></span></p>
+                        <p class="inf-item">Дата рождения: <span id="create-at"></span></p>
+                    </div>
+                    <div class="change-set">
+                        <h3>Редактирование аккаунта</h3>
+                        <h4>Изменить имя</h4>
+                        <input id="new-name" class="input-change">
+                        <button id="ch-name-btn" class="change-btn">Изменить</button>
+                        <br>
 
-                    <h4>Изменить аватар</h3>
-                    <input type="file" class="input-change" id="new-avatar" accept="image/*">
-                    <button id="ch-avatar-btn" class="change-btn">Изменить</button>
-                    <br>
+                        <h4>Изменить аватар</h4>
+                        <input type="file" class="input-change" id="new-avatar" accept="image/*">
+                        <button id="ch-avatar-btn" class="change-btn">Изменить</button>
+                        <br>
 
-                    <p style="color: rgb(189, 0, 0)"></p>
+                        <p class="error"></p>
+                    </div>
                 </div>
             </div>
         </div>
-        <img id="home" src="./img/home.png">
+        <img class="home" src="./img/home.png">
     </div>
 </body>
 </html>

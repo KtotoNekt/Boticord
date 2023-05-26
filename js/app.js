@@ -1,15 +1,15 @@
-const { writeFileSync, readFileSync, createReadStream, ReadStream, fstat, createWriteStream, unlink } = require('fs')
-const { join } = require('path')
+const { writeFileSync, readFileSync, createWriteStream, unlink } = require('fs')
+const { join, basename, extname } = require('path')
 const Discord = require('discord.js')
+const { PermissionFlagsBits } = require("discord.js")
 const { joinVoiceChannel, getVoiceConnection } = require('@discordjs/voice')
-const { EndBehaviorType } = require('@discordjs/voice')
+// const { EndBehaviorType } = require('@discordjs/voice')
     // const { OpusEncoder } = require('@discordjs/opus');
     // const { pipeline } = require('stream')
     // const ffmpeg = require('ffmpeg')
-
+const dragula = require("dragula")
 
 // const encoder = new OpusEncoder(48000, 2);
-
 let guildCanvas
 let channelsCanvas
 let messagesCanvas
@@ -21,7 +21,12 @@ let dropDownStatuses
 let displaySettings
 let lineNoName
 let guildLine
+let guildSettingsImg
+let guildSettingsCanvas
 let audioVoiceChat
+
+let divListRoles
+let divListNoDragulaRoles
 
 let channelName
 let guildName
@@ -32,6 +37,19 @@ let openGuild
 let voiceConnect = {
     guildId: null,
     channelId: null
+}
+
+
+async function test() {
+    // const link = global.bot.generateInvite({
+    //     permissions: [
+    //       PermissionFlagsBits.SendMessages,
+    //       PermissionFlagsBits.ManageGuild,
+    //       PermissionFlagsBits.MentionEveryone,
+    //     ],
+    //     scopes: [OAuth2Scopes.Bot],
+    //   });global.bot.users.cache.get(id)
+    //   console.log(`Generated bot invite link: ${link}`);
 }
 
 
@@ -49,14 +67,18 @@ function windowOpen() {
     guildLine = document.querySelector("#guild-line")
     guildName = guildLine.querySelector("span")
     audioVoiceChat = document.querySelector("#voice-chat")
+    guildSettingsImg = guildLine.querySelector("img")
+    guildSettingsCanvas = document.querySelector("#guild-settings")
+
+    divListRoles = document.querySelector("#list-roles")
+    divListNoDragulaRoles = document.querySelector("#no-dragula-list-roles")
 
     global.bot.guilds.cache.forEach(guild => addGuildCanvas(guild))
     document.getElementById("author").style.visibility = "hidden"
     document.getElementById("main").style.visibility = "visible"
 
     const avatar = userSettingsCanvas.querySelector('img#avatar')
-    console.log(global.bot.user.avatarURL() ? global.bot.user.avatarURL() : join(__dirname, "img", "default.png"))
-    avatar.src = global.bot.user.avatarURL() ? global.bot.user.avatarURL() : join(__dirname, "img", "default.png")
+    avatar.src = global.bot.user.avatarURL() ?? join(__dirname, "img", "default.png")
     userSettingsCanvas.querySelector('span').textContent = global.bot.user.tag
     statusBot.classList.add(global.bot.presence.status)
 
@@ -66,8 +88,8 @@ function windowOpen() {
         guildName.textContent = "Личные сообщения"
         removeElementsCanvas('.channel')
         removeCategorys()
-
-        // selectDmChannels()
+        guildSettingsImg.removeAttribute("src")
+            // selectDmChannels()
     }
 
     userSettingsCanvas.querySelector('img#set').onclick = () => {
@@ -89,6 +111,33 @@ function windowOpen() {
     avatar.onclick = () => {
         dropDownStatuses.classList.toggle("statusDropDownNotOpen")
     }
+
+    const drake = dragula([divListRoles], {
+        moves: (el) => {
+            const img = el.querySelector("img")
+
+            return img.src === "file://" + join(__dirname, "img", "settings-role.png") && el.guildRole.rawPosition != 0;
+        },
+        direction: "vertical"
+    })
+
+    drake.on("out", (element) => {
+            const newElementsRoleList = divListRoles.querySelectorAll(".role")
+
+            const listNew = [...newElementsRoleList]
+
+            listNew.reverse()
+
+            let prefixRole
+
+            listNew.forEach((el, index) => {
+                if (el == element) {
+                    prefixRole = index
+                }
+            })
+
+            element.guildRole.setPosition(prefixRole)
+    })
 }
 
 function removeCategorys() {
@@ -99,7 +148,11 @@ function removeCategorys() {
 }
 
 function removeElementsCanvas(id) {
-    const elements = document.querySelectorAll(id)
+    removeElementsCurrentCanvas(document, id)
+}
+
+function removeElementsCurrentCanvas(canvas, id) {
+    const elements = canvas.querySelectorAll(id)
     elements.forEach(element => element.remove())
 }
 
@@ -109,7 +162,7 @@ function addGuildCanvas(guild) {
     const div = document.createElement("div")
     const img = document.createElement("img")
 
-    img.src = guild.iconURL() ? guild.iconURL() : join('img', 'default.png')
+    img.src = guild.iconURL() ?? join('img', 'default.png')
     div.classList.add("guild")
     div.id = guild.id
 
@@ -117,6 +170,18 @@ function addGuildCanvas(guild) {
         if (openGuild) {
             document.getElementById(`${openGuild}`).classList.remove("open-guild")
         }
+
+        guildSettingsImg.src = hasPermissionGuild(guild,PermissionFlagsBits.ManageGuild) ? join(__dirname, "img", "settings-guild.png") : join(__dirname, "img", "view.png")
+
+
+        guildSettingsImg.onclick = () => {
+            dropDownStatuses.classList.add("statusDropDownNotOpen")
+            document.getElementById("main").style.visibility = "hidden"
+            guildSettingsCanvas.style.visibility = "visible"
+
+            guildSettingOptions(guild)
+        }
+
         openGuild = guild.id
         guildName.textContent = guild.name
 
@@ -132,11 +197,11 @@ function addGuildCanvas(guild) {
         let i = 0
 
         guild.channels.cache.forEach(channel => {
-            if (channel.parentId === null && channel.type !== "GUILD_CATEGORY") {
+            if (channel.parentId === null && channel.type !== 4) {
                 notHaveCategory[i] = channel
-            } else if (channel.type === "GUILD_CATEGORY") {
+            } else if (channel.type === 4) {
                 categorys[i] = channel
-            } else if (channel.type === "GUILD_TEXT") {
+            } else if (channel.type === 0) {
                 textChannel[i] = channel
             } else {
                 voiceChannel[i] = channel
@@ -172,9 +237,7 @@ function addMemberVoice(member) {
     user.classList.add("member-voice")
     user.id = member.id
     nickname.textContent = member.displayName
-    avatarMember.src = member.user.avatarURL() ?
-        member.user.avatarURL() :
-        member.user.defaultAvatarURL
+    avatarMember.src = member.user.avatarURL() ?? member.user.defaultAvatarURL
 
     user.appendChild(avatarMember)
     user.appendChild(nickname)
@@ -183,7 +246,7 @@ function addMemberVoice(member) {
 }
 
 function addChannelCanvas(channel) {
-    if (channel.type === "GUILD_CATEGORY") {
+    if (channel.type === 4) {
         addCategoryCanvas(channel)
         return
     }
@@ -199,7 +262,7 @@ function addChannelCanvas(channel) {
     p.textContent = channel.name
     div.id = channel.id
 
-    if (channel.type === "GUILD_TEXT") {
+    if (channel.type === 0) {
         icon.src = join("img", "textChannel.svg")
 
         div.onclick = (e) => {
@@ -217,7 +280,6 @@ function addChannelCanvas(channel) {
             }
 
             openChannel = channel.id
-            console.log(channel.id)
 
             document.getElementById(openChannel).classList.add('open-channel')
 
@@ -252,7 +314,7 @@ function addChannelCanvas(channel) {
             const members = online.concat(offline)
             members.forEach(member => addMemberCanvas(member))
         }
-    } else if (channel.type === "GUILD_VOICE") {
+    } else if (channel.type === 2) {
         icon.src = join("img", "voiceChannel.svg")
 
         voice_users = document.createElement("div")
@@ -261,7 +323,7 @@ function addChannelCanvas(channel) {
             voice_users.appendChild(addMemberVoice(member))
         })
 
-        div.onclick = (e) => {
+        div.onclick = () => {
             if (voiceConnect.channelId) {
                 getVoiceConnection(voiceConnect.guildId).disconnect()
             }
@@ -331,9 +393,7 @@ function addMemberCanvas(member) {
     const status = document.createElement('div')
 
     nick.textContent = member.displayName
-    avatar.src = member.user.avatarURL() ?
-        member.user.avatarURL() :
-        member.user.defaultAvatarURL
+    avatar.src = member.user.avatarURL() ?? member.user.defaultAvatarURL
     avatar.classList.add('avatar')
     div.id = member.id
     div.classList.add('member')
@@ -342,7 +402,7 @@ function addMemberCanvas(member) {
 
 
     if (!member.user.bot) {
-        div.onclick = (e) => {
+        div.onclick = () => {
             console.log(member)
             channelName.textContent = member.user.username
             guildName.textContent = "Личные сообщения"
@@ -351,7 +411,6 @@ function addMemberCanvas(member) {
             removeElementsCanvas(".message")
             removeCategorys()
 
-            // let id = e.path[0].id !== "" ? e.target.id : e.path[1].id
             let id = member.id
             selectDmChannelMessages(global.bot.users.cache.get(id))
         }
@@ -360,5 +419,6 @@ function addMemberCanvas(member) {
     div.appendChild(avatar)
     div.appendChild(status)
     div.appendChild(nick)
+
     membersChannelCanvas.appendChild(div)
 }

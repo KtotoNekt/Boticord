@@ -7,9 +7,7 @@ function addMessagesCanvas(message) {
 
     avatar.width = 40
     avatar.height = 40
-    avatar.src = message.author.avatarURL() ? 
-                 message.author.avatarURL() : 
-                 join("img", "default.png")
+    avatar.src = message.author.avatarURL() ?? join("img", "default.png")
     avatar.classList.add('avatar')
     div.id = message.id
     div.classList.add('message')
@@ -50,12 +48,12 @@ function newMessageChannel(message) {
     try {
         if(message.channel.type !== "DM" && message.guild.id == openGuild) {
             const channel = document.getElementById(message.channel.id)
-            message.mentions.users.forEach(user => {
-                if(user.id === global.bot.user.id) {
-                    channel.innerHTML = `${channel.textContent}<time class="mention-new"></time>`
-                    return
-                }
-            })
+            // message.mentions.users.forEach(user => {
+            //     if(user.id === global.bot.user.id) {
+            //         channel.innerHTML = `${channel.textContent}<time class="mention-new"></time>`
+            //         return
+            //     }
+            // })
             channel.classList.add('unread-message')
         }
     } catch {console.log(message, openChannel, message.channel.type)}

@@ -1,0 +1,14 @@
+#actions {
+    position: relative;
+    width: 700px;
+    height: 380px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#actions::-webkit-scrollbar {
+    background-color: #36393F;
+}
+#actions::-webkit-scrollbar-thumb {
+    background-color: rgb(41, 41, 41);
+}

@@ -16,6 +16,10 @@ body {
     visibility: hidden;
 }
 
+#guild-settings {
+    visibility: hidden;
+}
+
 #line-noname {
     background-color: #2F3136;
     height: 50px;
@@ -45,9 +49,20 @@ body {
     left: 15px;;
 }
 
+
+#guild-line > img {
+    position: absolute;
+    right: 25px;
+    top: 7px;
+}
+
 ::-webkit-scrollbar {
     background-color: rgb(43 42 48);
     width: 5px;
 } ::-webkit-scrollbar-thumb {
     background-color: rgb(82, 82, 82);
+}
+
+.error {
+    color: rgb(189, 0, 0)
 }

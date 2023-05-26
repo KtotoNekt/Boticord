@@ -1,0 +1,51 @@
+#list-invites {
+    position: absolute;
+    width: 600px;
+    height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#list-invites::-webkit-scrollbar {
+    background-color: #36393F;
+}
+#list-invites::-webkit-scrollbar-thumb {
+    background-color: rgb(41, 41, 41);
+}
+
+.invite {
+    position: relative;
+    background-color: #2B2A30;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.invite > span {
+    padding-right: 50px;
+    padding-left: 8px;
+    position: relative;
+    bottom: 20px;
+}
+
+.invite > img {
+    border-radius: 100px;
+    width: 50px;
+}
+
+.channel-invite > span {
+    position: relative;
+    bottom: 3.2px;
+}
+
+.channel-invite > img {
+    width: 16px;
+}
+
+#invite-definitions {
+    font-size: 13px;
+}
+
+#invite-definitions > span {
+    margin-left: 40px;
+}

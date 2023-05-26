@@ -1,31 +1,27 @@
 async function loadingBot(token, isEnableIntents) {
     const config = JSON.parse(readFileSync(join(__dirname, "json", 'config.json'), {encoding: 'utf-8'}))
-    if (isEnableIntents) {
-        config.cfg.intents = new Discord.Intents(config.cfg.intents)
+    if (!isEnableIntents) {
+        config.cfg.intents = []
     }
     
-    global.bot = new Discord.Client(config.cfg)
+    const bot = new Discord.Client(config.cfg)
 
     bot.hideUnallowed = true
-
+    
     bot.login(token)
         .then(() => {
             //changeConfig("token", token)
         })
-        .catch((e) => {
+        .catch(() => {
             const error = document.querySelector("#error")
-            if (e.name === "Error [DISALLOWED_INTENTS]") {
-                error.textContent = "Не включены интенты"
-            } else {
-                error.textContent = "Неверный токен"
-            }
+            error.textContent = "Неверный токен"
         })
 
     bot.on('ready', () => {
         windowOpen()
     })
 
-    bot.on("message", message => {
+    bot.on("messageCreate", message => {
         parseMessage(message)
     })
 
@@ -37,12 +33,33 @@ async function loadingBot(token, isEnableIntents) {
         editMessage(oldMessage, newMessage)
     })
 
-    bot.on("guildCreate", (guild) => {
+    bot.on("guildUpdate", (_, guild) => {
+        const icon = document.getElementById(guild.id).querySelector("img")
+        icon.src = guild.iconURL() ?? join('img', 'default.png')
+
+        if (openGuild == guild.id) {
+            guildName.textContent = guild.name
+        }
+    })
+
+    bot.on("guildCreate", guild => {
         addGuildCanvas(guild)
     })
 
     bot.on('guildDelete', guild => {
         document.getElementById(guild.id).remove()
+    })
+
+    bot.on('roleUpdate', (_, role) => {
+        roleActions(role, roleUpdateOnSettingsDisplay)
+    })
+
+    bot.on('roleCreate', role => {
+        roleActions(role, roleAddOnSettingsDisplay)
+    })
+
+    bot.on('roleDelete', role => {
+        roleActions(role, roleDeleteOnSettingsDisplay)
     })
 
     bot.on("voiceStateUpdate", voiceState => {
@@ -59,5 +76,7 @@ async function loadingBot(token, isEnableIntents) {
                 })
             })
         }
-    }) 
+    })
+
+    global.bot = bot
 }

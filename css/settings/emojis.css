@@ -1,0 +1,88 @@
+#list-emojis {
+    position: relative;
+    width: 700px;
+    height: 380px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#list-emojis::-webkit-scrollbar {
+    background-color: #36393F;
+}
+#list-emojis::-webkit-scrollbar-thumb {
+    background-color: rgb(41, 41, 41);
+}
+
+#create-emoji-div {
+    height: 50px;
+    margin-bottom: 30px;
+}
+
+
+#emoji-add-btn {
+    width: 140px;
+}
+
+.emoji {
+    position: relative;
+    background-color: #2B2A30;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    width: 500px;
+    height: 70px;
+}
+
+#emojis-dis {
+    height: 500px;
+}
+
+#emojis-dis > .change-btn {
+    width: 150px;
+}
+
+.emoji-div > img {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    left: 20px;
+    top: 9px;
+}
+
+.emoji-div > input {
+    width: 200px;
+    left: 40px;
+    color: white;
+    font-size: 18px;
+    position: relative;
+    bottom: 12px;
+    border: 0;
+    background-color: #36393F;
+}
+
+.emoji-div > input:hover {
+    background-color: #202225;
+}
+
+.author-div {
+    position: relative;
+    left: 320px;
+    bottom: 40px;
+}
+
+.author-div > span {
+    position: relative;
+    bottom: 8px;
+    left: 10px;
+}
+
+.author-div > img {
+    width: 30px;
+    border-radius: 70px;
+}
+
+.element-delete {
+    visibility: hidden;
+    position: absolute;
+    left: 480px;
+    bottom: 50px;
+}

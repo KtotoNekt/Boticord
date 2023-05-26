@@ -1,0 +1,188 @@
+#me {
+    bottom: 0;
+    position: absolute;
+    background-color: #292B2F;
+    left: 70px;
+    width: 250px;
+    color: white;
+    height: 50px;
+}
+
+#me > img#avatar {
+    width: 40px;
+    border-radius: 25px;
+    left: 5px;
+    position: relative;
+    top: 6px
+}
+
+#me > span {
+    position: relative;
+    bottom: 17.8px;
+    left: 10px;
+}
+
+#me > div {
+    position: relative;
+    width: 11px;
+    height: 11px;
+    border-radius: 25px;
+    bottom: 10px;
+    left: 33px;
+}
+
+#me > img#set {
+    position:absolute;
+    top: 0;
+    width: 30px;
+    right: 10px;
+    top: 10px;
+    border-radius: 7px;
+}
+
+#me > img#set:hover {
+    background-color: rgb(52 52 52);
+}
+
+#statusDropDown {
+    position: absolute;
+    color: white;
+    left: 80px;
+    bottom: 50px;
+    background-color: #1e2023;
+    border-radius: 10px
+}
+
+.statusDropDownItem {
+    padding: 1px 5px 10px 40px;
+}.statusDropDownItem:hover {
+    background-color: #434348;
+}
+
+.sign {
+    position: relative;
+    width: 11px;
+    height: 11px;
+    border-radius: 25px;
+    left: -30px;
+    bottom: -12.5px;
+}
+
+.statusDropDownNotOpen {
+    visibility: hidden;
+}
+
+
+.categories {
+    color: #dfe1eb;
+    top: 0;
+    left: 0;
+    background-color: rgb(43 42 48);
+    height: 100%;
+    width: 350px;
+    position: absolute;
+}
+
+.open {
+    background-color: #52525c;
+}
+
+.option {
+    padding: 15px 0 15px 100px;
+    border-radius: 10px;
+}
+.option:hover {
+    background-color: #424247;
+}
+
+.settings {
+    color: #cccbcb;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 65%;
+}
+
+.dis_set {
+    height: 100%;
+    position: relative;
+}
+
+.info-set {
+    top: 10px;
+    position:relative;
+    background-color: #2b2a30;
+    width: 650px;
+    height: 170px;
+    border-radius: 20px;
+}
+
+.info-set > img {
+    position: absolute; 
+    right: 10px;
+    top: 10px;
+    width: 140px;
+    border-radius: 5px;
+}
+
+.inf-item {
+    font-size: 20px;
+    padding: 10px 10px 0px 30px;
+}
+
+.home {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px
+}
+
+.change-set {
+    position: relative;
+    top: 20px;
+}
+
+.input-change {
+    height: 23px;
+    font-size: 15px;
+    background-color: #5d6066;
+    color: #bcc8c1;
+}
+
+.change-btn {
+    background-color: #5d6066;
+    border-radius: 5px;
+    width: 100px;
+    height: 30px;
+    font-size: 15px;
+    color: #bcc8c1;
+}
+
+.btn-delete {
+    background-color: #f41b1f;
+    border-radius: 5px;
+    width: 100px;
+    height: 30px;
+    font-size: 15px;
+    color: #c8bcbf;
+}
+
+#change-account > p {
+    color: red;
+}
+
+.display-set {
+    position: absolute;
+    visibility: hidden;
+}
+
+.add-btn {
+    position: absolute;
+    bottom: 15px;
+    left: 200px;
+}
+
+.view-dis {
+    color: rgb(255, 255, 255, 0.3);
+    pointer-events: none;
+}

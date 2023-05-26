@@ -12,10 +12,11 @@
   "dependencies": {
     "@discordjs/opus": "^0.8.0",
     "@discordjs/voice": "^0.13.0",
-    "discord.js": "^13.6.0"
+    "discord.js": "^14.11.0",
+    "dragula": "^3.7.3"
   },
   "devDependencies": {
-    "electron": "^18.2.0",
-    "electron-builder": "^22.10.3"
+    "electron": "^24.3.0",
+    "electron-builder": "^24.4.0"
   }
 }

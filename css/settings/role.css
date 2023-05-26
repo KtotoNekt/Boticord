@@ -1,0 +1,70 @@
+#total-roles {
+    position: absolute;
+    width: 250px;
+    height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#total-roles::-webkit-scrollbar {
+    background-color: #36393F;
+}
+#total-roles::-webkit-scrollbar-thumb {
+    background-color: rgb(41, 41, 41);
+}
+
+#role-settings::-webkit-scrollbar {
+    background-color: #36393F;
+}
+#role-settings::-webkit-scrollbar-thumb {
+    background-color: rgb(41, 41, 41);
+}
+
+#role-settings {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#role-settings {
+    position: absolute;
+    top: 0;
+    left: 270px;
+    width: 430px;
+    height: 560px;
+    background-color: #36393F;
+}
+
+.role.open {
+    background-color: #52525c;
+}
+
+.role {
+    position: relative;
+    margin-bottom: 5px;
+    background-color: #2B2A30;
+    padding: 20px;
+    width: 200px;
+    border-radius: 10px;
+}
+
+.role:hover {
+    background-color: #424247;
+}
+
+.role > span {
+    position: relative;
+    left: 33px;
+    top: 5px;
+}
+
+.role > div {
+    position: absolute;
+    width: 23px;
+    height: 23px;
+}
+
+.role > img {
+    position: absolute;
+    right: 10px;
+    bottom: 12px;
+}
