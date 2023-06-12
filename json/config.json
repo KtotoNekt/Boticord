@@ -6,10 +6,17 @@
             "Guilds","GuildMembers","GuildModeration","GuildBans",
             "GuildEmojisAndStickers","GuildIntegrations","GuildVoiceStates","GuildPresences",
             "GuildMessages","GuildInvites","GuildWebhooks","GuildMessageReactions",
-            "GuildMessageTyping","DirectMessages","MessageContent","DirectMessageReactions", "DirectMessageTyping", "GuildScheduledEvents", "AutoModerationConfiguration", "AutoModerationExecution"
+            "GuildMessageTyping","DirectMessages","MessageContent","DirectMessageReactions", 
+            "DirectMessageTyping", "GuildScheduledEvents", "AutoModerationConfiguration", "AutoModerationExecution"
         ],
         "presence":{
             "status":"dnd"
         }
-    }
+    },
+    "intents_2": [
+        "Guilds", "GuildEmojisAndStickers", "GuildIntegrations", "GuildVoiceStates", 
+        "GuildMessages", "GuildInvites", "GuildWebhooks", "GuildMessageReactions",
+        "GuildMessageTyping", "DirectMessages", "DirectMessageReactions", "DirectMessageTyping", 
+        "GuildScheduledEvents", "AutoModerationConfiguration", "AutoModerationExecution"
+    ]
 }

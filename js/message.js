@@ -29,6 +29,7 @@ function addMessagesCanvas(message) {
 }
 
 function parseMessage(message) {
+    console.log(message)
     if(openChannel === message.channel.id) 
         addMessagesCanvas(message)
     else {

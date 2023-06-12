@@ -1,7 +1,7 @@
 async function loadingBot(token, isEnableIntents) {
     const config = JSON.parse(readFileSync(join(__dirname, "json", 'config.json'), {encoding: 'utf-8'}))
     if (!isEnableIntents) {
-        config.cfg.intents = []
+        config.cfg.intents = config.intents_2
     }
     
     const bot = new Discord.Client(config.cfg)

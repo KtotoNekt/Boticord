@@ -101,5 +101,10 @@ function hiddenDivSettings(optionHidden, optionVisible) {
 
 
 function hasPermissionGuild(guild, permission) {
-    return guild.members.me.permissions.has(permission)
+    try {
+        return guild.members.me.permissions.has(permission)
+    } catch {
+        return false;
+    }
+    
 }

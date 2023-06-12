@@ -1,7 +1,7 @@
 const { writeFileSync, readFileSync, createWriteStream, unlink } = require('fs')
 const { join, basename, extname } = require('path')
 const Discord = require('discord.js')
-const { PermissionFlagsBits } = require("discord.js")
+const { PermissionFlagsBits, OAuth2Scopes } = require("discord.js")
 const { joinVoiceChannel, getVoiceConnection } = require('@discordjs/voice')
 // const { EndBehaviorType } = require('@discordjs/voice')
     // const { OpusEncoder } = require('@discordjs/opus');
@@ -40,20 +40,22 @@ let voiceConnect = {
 }
 
 
-async function test() {
-    // const link = global.bot.generateInvite({
-    //     permissions: [
-    //       PermissionFlagsBits.SendMessages,
-    //       PermissionFlagsBits.ManageGuild,
-    //       PermissionFlagsBits.MentionEveryone,
-    //     ],
-    //     scopes: [OAuth2Scopes.Bot],
-    //   });global.bot.users.cache.get(id)
-    //   console.log(`Generated bot invite link: ${link}`);
-}
+// async function test() {
+//     const link = global.bot.generateInvite({
+//         permissions: [
+//           PermissionFlagsBits.SendMessages,
+//           PermissionFlagsBits.ManageGuild,
+//           PermissionFlagsBits.MentionEveryone,
+//         ],
+//         scopes: [OAuth2Scopes.Bot],
+//       });
+
+//       console.log(`Generated bot invite link: ${link}`);
+// }
 
 
 function windowOpen() {
+    // test()
     guildCanvas = document.querySelector("#guilds")
     channelsCanvas = document.querySelector('#channels')
     messagesCanvas = document.querySelector('#chat')
@@ -72,7 +74,7 @@ function windowOpen() {
 
     divListRoles = document.querySelector("#list-roles")
     divListNoDragulaRoles = document.querySelector("#no-dragula-list-roles")
-
+    console.log(global.bot);
     global.bot.guilds.cache.forEach(guild => addGuildCanvas(guild))
     document.getElementById("author").style.visibility = "hidden"
     document.getElementById("main").style.visibility = "visible"
@@ -167,8 +169,15 @@ function addGuildCanvas(guild) {
     div.id = guild.id
 
     div.onclick = () => {
+        console.log(guild)
         if (openGuild) {
             document.getElementById(`${openGuild}`).classList.remove("open-guild")
+        }
+
+        if (guild.members.me == null) {
+            guildName.textContent = "У вас нет прав на просмотр этого сервера!"
+            guildSettingsImg.onclick = () => {}
+            return
         }
 
         guildSettingsImg.src = hasPermissionGuild(guild,PermissionFlagsBits.ManageGuild) ? join(__dirname, "img", "settings-guild.png") : join(__dirname, "img", "view.png")
@@ -196,7 +205,10 @@ function addGuildCanvas(guild) {
         const categorys = []
         let i = 0
 
+        console.log(guild.channels.cache);
+
         guild.channels.cache.forEach(channel => {
+            console.log(channel)
             if (channel.parentId === null && channel.type !== 4) {
                 notHaveCategory[i] = channel
             } else if (channel.type === 4) {
@@ -210,6 +222,7 @@ function addGuildCanvas(guild) {
         })
 
         const channels = notHaveCategory.concat(categorys.concat(textChannel.concat(voiceChannel)))
+        console.log(channels)
         channels.forEach(channel => addChannelCanvas(channel))
     }
 
@@ -246,6 +259,7 @@ function addMemberVoice(member) {
 }
 
 function addChannelCanvas(channel) {
+    console.log(channel)
     if (channel.type === 4) {
         addCategoryCanvas(channel)
         return
